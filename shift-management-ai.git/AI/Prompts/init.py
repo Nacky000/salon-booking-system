@@ -1,1 +1,0 @@
-from .shiftbot_prompt import SHIFTBOT_PROMPT

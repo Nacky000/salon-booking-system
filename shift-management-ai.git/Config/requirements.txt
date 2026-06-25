@@ -1,5 +1,0 @@
-openai
-flask
-line-bot-sdk
-gspread
-python-dotenv
