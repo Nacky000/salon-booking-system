@@ -48,19 +48,30 @@ hair-salon-system/
 ```
 
 ### インクリメント2
-機能：メニュー機能追加
+機能：管理画面，メニュー機能，管理者用操作を追加
 ```text
 backend/models/
     menu.py
 
 backend/services/
     menu_service.py
+    admin_service.py
 
 backend/repositories/
     menu_repository.py
 
 data/
     menus.json
+
+frontend/templates/
+    admin/
+        dashboard.html
+        reservation_manage.html
+        calendar.html
+        menu_manage.html
+
+frontend/js/
+    admin.js
 ```
 
 ### インクリメント3
@@ -77,6 +88,9 @@ backend/repositories/
 
 data/
     stylists.json
+
+frontend/templates/admin/
+    stylist_manage.html
 ```
 
 ### インクリメント4
@@ -140,7 +154,8 @@ hair-salon-system/
 │   │   │   ├── stylist_service.py
 │   │   │   ├── auth_service.py
 │   │   │   ├── user_service.py
-│   │   │   └── history_service.py
+│   │   │   ├── history_service.py
+│   │   │   └── admin_service.py
 │   │   │
 │   │   └── repositories/
 │   │       ├── reservation_repository.py
@@ -154,14 +169,22 @@ hair-salon-system/
 │   │   │   ├── reservation.html
 │   │   │   ├── reservation_list.html
 │   │   │   ├── login.html
+│   │   │   ├── register.html
 │   │   │   ├── history.html
-│   │   │   └── register.html
+│   │   │   │
+│   │   │   └── admin/ 
+│   │   │       ├── dashboard.html
+│   │   │       ├── reservation_manage.html
+│   │   │       ├── calendar.html
+│   │   │       ├── menu_manage.html
+│   │   │       └── stylist_manage.html
 │   │   │
 │   │   ├── css/
 │   │   │   └── style.css
 │   │   │
 │   │   └── js/
-│   │       └── script.js
+│   │       ├── script.js
+│   │       └── admin.js
 │   │
 │   └── data/
 │       ├── reservations.json
@@ -228,6 +251,10 @@ Webアプリケーションのエントリーポイント．
 
 予約履歴の取得を担当する
 
+#### admin_service.py
+
+管理者機能全般を担当する
+
 ---
 
 ### backend/repositories/
@@ -276,6 +303,28 @@ Webアプリケーションのエントリーポイント．
 
 予約履歴確認画面
 
+#### admin
+
+##### dashboard.html
+
+管理者用ダッシュボード画面
+
+##### reservation_manage.html
+
+予約管理画面（管理者用）
+
+##### calendar.html
+
+スケジュール可視化画面
+
+##### menu_manage.html
+
+メニュー管理画面
+
+##### stylist_manage.html
+
+美容師管理画面
+
 ---
 
 ### frontend/css/
@@ -291,6 +340,10 @@ Webアプリケーションのエントリーポイント．
 #### script.js
 
 入力チェックや画面制御などのJavaScript処理を担当する
+
+#### admin.js
+
+管理画面専用のフロントエンドスクリプト
 
 ---
 
