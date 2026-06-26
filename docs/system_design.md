@@ -419,3 +419,26 @@ Webアプリケーションのエントリーポイント．
 - 予約時は名前・メールアドレス・電話番号を入力し、同じメールアドレスのユーザーが存在する場合はその user_id を利用する．
 - 存在しない場合は users.json に新規ユーザーを追加し、その user_id を予約データに保存する．
 - 会員機能実装後はログインユーザーの user_id をそのまま利用する．
+
+## URL
+
+| URL                   | 画面・処理   |
+| --------------------- | ------- |
+| `/`                   | トップページ  |
+| `/reservation`        | 予約画面    |
+| `/reservation/list`   | 予約一覧    |
+| `/reservation/create` | 予約登録処理  |
+| `/reservation/cancel` | 予約キャンセル |
+| `/login`              | ログイン画面  |
+| `/register`           | 会員登録画面  |
+| `/logout`             | ログアウト   |
+| `/history`            | 予約履歴    |
+| `/admin`              | 管理画面トップ |
+| `/admin/reservations` | 予約管理    |
+| `/admin/calendar`     | カレンダー   |
+| `/admin/menus`        | メニュー管理  |
+| `/admin/stylists`     | 美容師管理   |
+
+## 関数名
+
+
