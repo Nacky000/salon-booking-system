@@ -48,6 +48,28 @@ hair-salon-system/
 ```
 
 ### インクリメント2
+機能：会員機能
+```text
+backend/models/
+    user.py
+
+backend/services/
+    auth_service.py
+    user_service.py
+
+backend/repositories/
+    user_repository.py
+
+data/
+    users.json
+
+frontend/templates/
+    login.html
+    register.html
+```
+
+
+### インクリメント3
 機能：管理画面，メニュー機能，管理者用操作を追加
 ```text
 backend/models/
@@ -74,7 +96,7 @@ frontend/js/
     admin.js
 ```
 
-### インクリメント3
+### インクリメント4
 機能：美容師指定
 ```text
 backend/models/
@@ -93,26 +115,6 @@ frontend/templates/admin/
     stylist_manage.html
 ```
 
-### インクリメント4
-機能：会員機能
-```text
-backend/models/
-    user.py
-
-backend/services/
-    auth_service.py
-    user_service.py
-
-backend/repositories/
-    user_repository.py
-
-data/
-    users.json
-
-frontend/templates/
-    login.html
-    register.html
-```
 
 ### インクリメント5
 機能：予約履歴
@@ -372,3 +374,48 @@ Webアプリケーションのエントリーポイント．
 #### test_reservation.py
 
 予約機能のテストを実施する
+
+## JSON形式
+
+* users.json
+{
+    "id": 1,
+    "name": "山田太郎",
+    "email": "yamada@example.com",
+    "phone": "090-1234-5678",
+    "password": "..."
+    "role": "customer"
+}
+
+* menus.json
+{
+    "id": 1,
+    "name": "カット",
+    "price": 4000,
+    "duration": 60
+}
+
+* stylists.json
+{
+    "id": 1,
+    "name": "田中",
+    "holiday": ["2026-07-15"]
+}
+
+* reservations.json
+{
+    "id": 1,
+    "user_id": 1,
+    "menu_ids": [1, 3],
+    "stylist_id": 2,
+    "date": "2026-07-10",
+    "time": "10:00",
+    "status": "reserved"
+}
+
+
+- データ構造は最終形を採用する．
+- 会員機能実装前から users.json を利用する．
+- 予約時は名前・メールアドレス・電話番号を入力し、同じメールアドレスのユーザーが存在する場合はその user_id を利用する．
+- 存在しない場合は users.json に新規ユーザーを追加し、その user_id を予約データに保存する．
+- 会員機能実装後はログインユーザーの user_id をそのまま利用する．
