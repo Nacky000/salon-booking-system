@@ -21,12 +21,6 @@
 * docs/development_rules.md
 * docs/progress.md
 
-### 対応職種
-
-* SE
-* ITコンサル
-* PM
-* ディレクター
 
 ---
 
@@ -46,12 +40,6 @@
 * frontend/templates/register.html
 * frontend/templates/history.html
 
-### 対応職種
-
-* Webエンジニア
-* フロントエンドエンジニア
-* 企画
-* ディレクター
 
 ---
 
@@ -72,12 +60,6 @@
 * frontend/templates/admin/stylist_manage.html
 * frontend/js/admin.js
 
-### 対応職種
-
-* Webエンジニア
-* フロントエンドエンジニア
-* 企画
-* ディレクター
 
 ---
 
@@ -93,12 +75,6 @@
 
 * frontend/css/style.css
 
-### 対応職種
-
-* Webエンジニア
-* UI/UX
-* 企画
-
 ---
 
 ## ⑤ フロントエンド（JavaScript）
@@ -113,11 +89,6 @@
 ### 関連ファイル
 
 * frontend/js/script.js
-
-### 対応職種
-
-* Webエンジニア
-* SE
 
 ---
 
@@ -137,11 +108,6 @@
 * backend/repositories/reservation_repository.py
 * data/reservations.json
 
-### 対応職種
-
-* SE
-* SIer
-* バックエンドエンジニア
 
 ---
 
@@ -159,10 +125,6 @@
 * backend/repositories/menu_repository.py
 * data/menus.json
 
-### 対応職種
-
-* SE
-* SIer
 
 ---
 
@@ -181,12 +143,6 @@
 
 * backend/services/admin_service.py
 
-### 対応職種
-
-* SE
-* SIer
-* バックエンドエンジニア
-* ITコンサル
 
 ---
 
@@ -203,11 +159,6 @@
 * backend/services/stylist_service.py
 * backend/repositories/stylist_repository.py
 * data/stylists.json
-
-### 対応職種
-
-* SE
-* SIer
 
 ---
 
@@ -229,12 +180,6 @@
 * frontend/templates/login.html
 * frontend/templates/register.html
 
-### 対応職種
-
-* SE
-* SIer
-* 社内SE
-
 ---
 
 ## ⑪ 予約履歴機能
@@ -249,10 +194,6 @@
 * backend/services/history_service.py
 * frontend/templates/history.html
 
-### 対応職種
-
-* SE
-* Webエンジニア
 
 ---
 
@@ -269,12 +210,6 @@
 
 * tests/test_reservation.py
 * その他テストファイル
-
-### 対応職種
-
-* QA
-* SE
-* SIer
 
 ---
 
@@ -310,10 +245,13 @@
 # 担当割り当て
 
 ## 植木
-- 
+- ①⑥⑫＋main.py
 
 ## 大塚
-- 
+- ⑦⑧⑨⑩
 
 ## 砂子
-- 
+- ②③④⑤⑪
+
+* 担当番号のファイル以外触らないこと．
+* main.pyには植木以外触らないこと．
