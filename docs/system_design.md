@@ -25,8 +25,11 @@ hair-salon-system/
 │   │   ├── services/
 │   │   │   └── reservation_service.py
 │   │   │
-│   │   └── repositories/
-│   │       └── reservation_repository.py
+│   │   ├── repositories/
+│   │   │   └── reservation_repository.py
+│   │   │
+│   │   └── utils/
+│   │       └── time_utils.py
 │   │
 │   ├── frontend/
 │   │   ├── templates/
@@ -159,11 +162,14 @@ hair-salon-system/
 │   │   │   ├── history_service.py
 │   │   │   └── admin_service.py
 │   │   │
-│   │   └── repositories/
-│   │       ├── reservation_repository.py
-│   │       ├── menu_repository.py
-│   │       ├── stylist_repository.py
-│   │       └── user_repository.py
+│   │   ├── repositories/
+│   │   │   ├── reservation_repository.py
+│   │   │   ├── menu_repository.py
+│   │   │   ├── stylist_repository.py
+│   │   │   └── user_repository.py
+│   │   │
+│   │   └── utils/
+│   │       └── time_utils.py
 │   │
 │   ├── frontend/
 │   │   ├── templates/
@@ -276,6 +282,14 @@ Webアプリケーションのエントリーポイント．
 #### user_repository.py
 
 会員データの保存・読み込みを担当する
+
+---
+
+### backend/utils/
+
+#### time_utils.py
+
+美容院の営業時間を管理する
 
 ---
 
