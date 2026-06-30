@@ -8,6 +8,7 @@
 * 不明な点は勝手に実装せず相談する
 * 実行前にpip install -r requirements.txtを行う．
 * 何かpip installしたら，報告する．
+* name属性はJSONのキーと同じ名前を使う
 
 ## 担当範囲
 
