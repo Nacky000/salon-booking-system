@@ -20,6 +20,7 @@
 * docs/task_assignment.md
 * docs/development_rules.md
 * docs/progress.md
+* requirements.txt
 
 
 ---

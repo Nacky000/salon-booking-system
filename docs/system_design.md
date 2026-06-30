@@ -7,6 +7,7 @@ hair-salon-system/
 │
 ├── README.md
 ├── .gitignore
+├── requirements.txt
 │
 ├── docs/
 │   ├── requirements.md
@@ -135,6 +136,7 @@ hair-salon-system/
 │
 ├── README.md
 ├── .gitignore
+├── requirements.txt
 │
 ├── docs/
 │   ├── requirements.md
