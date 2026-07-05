@@ -1,0 +1,98 @@
+/*全体設定*/
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: sans-serif;
+    background-color: #f5f7fa;
+}
+
+/*ヘッダー*/
+
+header {
+    background-color: #89c2ff;
+    color: white;
+    text-align: center;
+    padding: 30px;
+}
+
+/*メニュー*/
+
+.menu {
+    width: 300px;
+    margin: 50px auto;
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+/*ボタン*/
+
+button {
+
+    padding: 15px;
+
+    font-size: 18px;
+
+    border: none;
+
+    border-radius: 10px;
+
+    cursor: pointer;
+
+    background-color: #4da3ff;
+
+    color: white;
+
+    transition: 0.3s;
+}
+
+button:hover {
+
+    background-color: #2b7dd6;
+
+}
+
+/*フォーム*/
+
+.container {
+    width: 400px;
+    margin: 40px auto;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/*予約カード*/
+
+.reservation-card {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-bottom: 20px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+}
+
+.reservation-card h3 {
+    margin-top: 0;
+}
+
+.reservation-card p {
+    margin: 8px 0;
+}

@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ページタイトル -->
+    <title>予約画面 | Salon Booking System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- ヘッダー -->
+    <header>
+        <h1>予約画面</h1>
+        <p>予約情報を入力してください</p>
+    </header>
+
+    <!-- 予約フォーム -->
+    <main class="container">
+
+        <form action="/reservation/create" method="POST">
+
+            <!-- 会員ID -->
+            <div class="form-group">
+                <label for="user_id">会員ID</label>
+                <input
+                    type="number"
+                    id="user_id"
+                    name="user_id"
+                    placeholder="会員IDを入力"
+                    required>
+            </div>
+
+            <!-- メニューID -->
+            <div class="form-group">
+                <label for="menu_ids">メニューID</label>
+
+                <!--
+                    仮入力
+                -->
+                <input
+                    type="number"
+                    id="menu_ids"
+                    name="menu_ids"
+                    placeholder="メニューIDを入力"
+                    required>
+            </div>
+
+            <!-- 美容師ID -->
+            <div class="form-group">
+                <label for="stylist_id">美容師ID</label>
+                <input
+                    type="number"
+                    id="stylist_id"
+                    name="stylist_id"
+                    placeholder="美容師IDを入力"
+                    required>
+            </div>
+
+            <!-- 予約日 -->
+            <div class="form-group">
+                <label for="date">予約日</label>
+                <input
+                    type="date"
+                    id="date"
+                    name="date"
+                    required>
+            </div>
+
+            <!-- 予約時間 -->
+            <div class="form-group">
+                <label for="time">予約時間</label>
+                <input
+                    type="time"
+                    id="time"
+                    name="time"
+                    required>
+            </div>
+
+            <!-- 予約ボタン -->
+            <button type="submit">
+                予約する
+            </button>
+
+        </form>
+
+        <!-- トップページへ戻る -->
+        <button onclick="location.href='/'">
+            トップへ戻る
+        </button>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ページタイトル -->
+    <title>予約一覧 | Salon Booking System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- ヘッダー -->
+    <header>
+        <h1>予約一覧</h1>
+        <p>現在の予約を確認できます</p>
+    </header>
+
+    <!-- 予約一覧 -->
+    <main class="container">
+
+        <!--
+            仮データを表示
+        -->
+
+        <div class="reservation-card">
+
+            <h3>予約情報</h3>
+
+            <p><strong>会員ID：</strong>1</p>
+            <p><strong>メニューID：</strong>1</p>
+            <p><strong>美容師ID：</strong>1</p>
+            <p><strong>予約日：</strong>2026-07-05</p>
+            <p><strong>予約時間：</strong>10:00</p>
+
+            <!-- キャンセル -->
+            <form action="/reservation/cancel" method="POST">
+
+                <!-- 仮の予約ID -->
+                <input
+                    type="hidden"
+                    name="reservation_id"
+                    value="1">
+
+                <button type="submit">
+                    予約をキャンセル
+                </button>
+
+            </form>
+
+        </div>
+
+        <!-- トップページへ戻る -->
+        <button onclick="location.href='/'">
+            トップへ戻る
+        </button>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>

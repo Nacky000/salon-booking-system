@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- ページタイトル -->
+    <title>予約履歴 | Salon Booking System</title>
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <!-- ヘッダー -->
+    <header>
+        <h1>予約履歴</h1>
+    </header>
+
+   
+    <!-- 予約履歴 -->
+    <main class="container">
+
+    
+
+        <div class="reservation-card">
+
+            <h3>予約履歴</h3>
+
+            <p><strong>会員ID：</strong>1</p>
+            <p><strong>メニュー：</strong>カット</p>
+            <p><strong>美容師：</strong>山田</p>
+            <p><strong>利用日：</strong>2026-06-15</p>
+            <p><strong>利用時間：</strong>13:00</p>
+            <p><strong>ステータス：</strong>施術完了</p>
+
+        </div>
+
+        <div class="reservation-card">
+
+            <h3>予約履歴</h3>
+
+            <p><strong>会員ID：</strong>1</p>
+            <p><strong>メニュー：</strong>カラー</p>
+            <p><strong>美容師：</strong>佐藤</p>
+            <p><strong>利用日：</strong>2026-05-20</p>
+            <p><strong>利用時間：</strong>10:00</p>
+            <p><strong>ステータス：</strong>施術完了</p>
+
+        </div>
+
+        <!-- トップページへ戻る -->
+        <button onclick="location.href='/'">
+            トップへ戻る
+        </button>
+
+    </main>
+
+    <!-- JavaScript -->
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+
+</html>
