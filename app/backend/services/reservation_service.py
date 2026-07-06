@@ -25,7 +25,7 @@ class ReservationService:
                 and reservation.time == time
                 and reservation.stylist_id == stylist_id
             ):
-                return False  # 予約できない
+                return "duplicate"  # 予約できない
 
         if reservations: # 新しい予約IDを決定
             new_id = max(reservation.id for reservation in reservations) + 1
@@ -43,7 +43,7 @@ class ReservationService:
 
         self.repository.add(reservation) # 保存
 
-        return True
+        return "success"
 
     def cancel_reservation(self, reservation_id):
         """予約キャンセル"""
@@ -59,25 +59,26 @@ class ReservationService:
         """予約一覧取得"""
         return self.repository.load_all()
 
-    def get_available_times(self, date, stylist_id):
-        """空き時間取得"""
+    def get_daily_schedule(self, date, stylist_id):
+        """予約可能時間確認"""
+        reservations = self.repository.load_all()
 
-        reservations = self.repository.load_all() # 現在の予約一覧を取得
-        reserved_times = set() # 予約済みの時間を取得
+        reserved_times = set()
 
-        for reservation in reservations:
-            if (
-                reservation.date == date
-                and reservation.stylist_id == stylist_id
-            ):
-                reserved_times.add(reservation.time)
-                
-        all_times = generate_times() # 予約時間
+        for r in reservations:
+            if r.date == date and r.stylist_id == stylist_id:
+                reserved_times.add(r.time)
 
-        available_times = [] # 空いている時間だけ返す
+        all_times = generate_times()
+
+        schedule = {}
 
         for time in all_times:
-            if time not in reserved_times:
-                available_times.append(time)
 
-        return available_times
+            if time in reserved_times:
+                schedule[time] = "×"
+
+            else:
+                schedule[time] = "○"
+
+        return schedule
