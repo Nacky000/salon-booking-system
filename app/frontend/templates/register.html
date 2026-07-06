@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <!-- ページタイトル -->
-    <title>新規登録 | Salon Booking System</title>
+    <title>新規登録</title>
 
     <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -21,33 +21,27 @@
 
     <!-- 新規登録フォーム -->
     <main class="container">
-
-        <!--
-            画面のみ作成
-        -->
         <form action="/register" method="POST">
 
             <!-- 名前 -->
             <div class="form-group">
-                <label for="name">氏名</label>
-                <input
-                    type="text"
-                    id="name"
-                    name="name"
-                    placeholder="山田 花子"
-                    required>
+            <label>名前</label>
+            <input
+                type="text"
+                name="name"
+                placeholder="名前"
+                required>
             </div>
 
             <!-- メールアドレス -->
             <div class="form-group">
-                <label for="email">メールアドレス</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="sample@example.com"
-                    required>
-            </div>
+            <label>メールアドレス</label>
+            <input
+                type="email"
+                name="email"
+                placeholder="example@eed.tus.ac.jp"
+                required>
+        </div>
 
             <!-- 電話番号 -->
             <div class="form-group">
@@ -61,15 +55,13 @@
             </div>
 
             <!-- パスワード -->
-            <div class="form-group">
-                <label for="password">パスワード</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="??文字以上で入力"
-                    required>
-            </div>
+           <div class="form-group">
+            <label>パスワード</label>
+            <input
+                type="password"
+                name="password"
+                required>
+           </div>
 
             <!-- パスワード確認 -->
             <div class="form-group">
@@ -84,19 +76,14 @@
 
             <!-- 登録ボタン -->
             <button type="submit">
-                新規登録
+                新規会員登録
             </button>
 
         </form>
 
         <!-- ログイン画面 -->
         <button onclick="location.href='/login'">
-            ログインはこちら
-        </button>
-
-        <!-- トップへ戻る -->
-        <button onclick="location.href='/'">
-            トップへ戻る
+            ログイン画面へ
         </button>
 
     </main>
