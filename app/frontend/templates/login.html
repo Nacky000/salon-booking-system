@@ -14,63 +14,52 @@
 
 <body>
 
-    <!-- ヘッダー -->
-    <header>
-        <h1>ログイン</h1>
-        <p>会員情報を入力してください</p>
-    </header>
+<header>
+    <h1>ログイン</h1>
+    <p>ログインして予約をご利用ください</p>
+</header>
 
-    <!-- ログインフォーム -->
-    <main class="container">
+<main class="container">
 
-        <!--
-           画面のみ作成
-        -->
-        <form action="/login" method="POST">
+    <form action="/login" method="POST">
 
-            <!-- メールアドレス -->
-            <div class="form-group">
-                <label for="email">メールアドレス</label>
-                <input
-                    type="email"
-                    id="email"
-                    name="email"
-                    placeholder="sample@example.com"
-                    required>
-            </div>
+        <div class="form-group">
+            <label>メールアドレス</label>
+            <input
+                type="email"
+                name="email"
+                placeholder="example@email.com"
+                required>
+        </div>
 
-            <!-- パスワード -->
-            <div class="form-group">
-                <label for="password">パスワード</label>
-                <input
-                    type="password"
-                    id="password"
-                    name="password"
-                    placeholder="パスワードを入力"
-                    required>
-            </div>
+        <div class="form-group">
+            <label>パスワード</label>
+            <input
+                type="password"
+                name="password"
+                placeholder="パスワード"
+                required>
+        </div>
 
-            <!-- ログイン -->
-            <button type="submit">
-                ログイン
-            </button>
-
-        </form>
-
-        <!-- 新規登録 -->
-        <button onclick="location.href='/register'">
-            新規登録はこちら
+        <button type="submit">
+            ログイン
         </button>
 
-        <!-- トップへ戻る -->
-        <button onclick="location.href='/'">
-            トップへ戻る
-        </button>
+    </form>
 
-    </main>
+    <hr>
 
-    <!-- JavaScript -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+    <p class="message">
+        アカウントをお持ちでない方
+    </p>
+
+    <button onclick="location.href='/register'">
+        新規登録
+    </button>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 
