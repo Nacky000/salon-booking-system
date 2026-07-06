@@ -20,6 +20,16 @@ class AuthService:
             return None
 
         return user
+
+    def is_admin(self, user):
+        """
+        管理者か判定
+        """
+
+        if user is None:
+            return False
+
+        return user.role == "admin"
     
 
 # ログインの流れ

@@ -7,16 +7,22 @@ class StylistService:
     def __init__(self):
         self.repository = StylistRepository()
 
-    def get_all_stylists(self):
-        """全美容師取得"""
+    def get_all(self):
+        """
+        全美容師取得
+        """
         return self.repository.load_stylists()
 
-    def get_stylist_by_id(self, stylist_id):
-        """IDから美容師取得"""
+    def get_by_id(self, stylist_id):
+        """
+        IDから美容師取得
+        """
         return self.repository.find_by_id(stylist_id)
 
     def add_stylist(self, name):
-        """美容師追加"""
+        """
+        美容師追加
+        """
 
         stylists = self.repository.load_stylists()
 
@@ -36,7 +42,9 @@ class StylistService:
         return stylist
 
     def update_stylist(self, stylist_id, name, holiday):
-        """美容師情報更新"""
+        """
+        美容師情報更新
+        """
 
         stylists = self.repository.load_stylists()
 
@@ -46,17 +54,21 @@ class StylistService:
                 stylist.holiday = holiday
 
                 self.repository.save_stylists(stylists)
+
                 return stylist
 
         return None
 
     def delete_stylist(self, stylist_id):
-        """美容師削除"""
-
+        """
+        美容師削除
+        """
         self.repository.delete_stylist(stylist_id)
 
     def is_holiday(self, stylist_id, date):
-        """指定日に美容師が休みか判定"""
+        """
+        指定日に美容師が休みか判定
+        """
 
         stylist = self.repository.find_by_id(stylist_id)
 
@@ -64,4 +76,3 @@ class StylistService:
             return False
 
         return date in stylist.holiday
-    

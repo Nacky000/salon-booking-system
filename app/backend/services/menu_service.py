@@ -7,16 +7,22 @@ class MenuService:
     def __init__(self):
         self.repository = MenuRepository()
 
-    def get_all_menus(self):
-        """全メニュー取得"""
+    def get_all(self):
+        """
+        全メニュー取得
+        """
         return self.repository.load_menus()
 
-    def get_menu_by_id(self, menu_id):
-        """IDからメニュー取得"""
+    def get_by_id(self, menu_id):
+        """
+        IDからメニュー取得
+        """
         return self.repository.find_by_id(menu_id)
 
     def add_menu(self, name, price, duration):
-        """メニュー追加"""
+        """
+        メニュー追加
+        """
 
         menus = self.repository.load_menus()
 
@@ -25,19 +31,21 @@ class MenuService:
         else:
             new_id = 1
 
-        new_menu = Menu(
+        menu = Menu(
             id=new_id,
             name=name,
             price=price,
             duration=duration
         )
 
-        self.repository.add_menu(new_menu)
+        self.repository.add_menu(menu)
 
-        return new_menu
+        return menu
 
     def update_menu(self, menu_id, name, price, duration):
-        """メニュー更新"""
+        """
+        メニュー更新
+        """
 
         menus = self.repository.load_menus()
 
@@ -48,13 +56,15 @@ class MenuService:
                 menu.duration = duration
 
                 self.repository.save_menus(menus)
+
                 return menu
 
         return None
 
     def delete_menu(self, menu_id):
-        """メニュー削除"""
-
+        """
+        メニュー削除
+        """
         self.repository.delete_menu(menu_id)
 
 
