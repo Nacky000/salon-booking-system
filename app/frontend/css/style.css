@@ -1,4 +1,6 @@
-/*ëSëÃê›íË*/
+/* =========================
+   ÂÖ®‰ΩìË®≠ÂÆö
+========================= */
 
 body {
     margin: 0;
@@ -7,7 +9,9 @@ body {
     background-color: #f5f7fa;
 }
 
-/*ÉwÉbÉ_Å[*/
+/* =========================
+   „Éò„ÉÉ„ÉÄ„Éº
+========================= */
 
 header {
     background-color: #89c2ff;
@@ -16,20 +20,58 @@ header {
     padding: 30px;
 }
 
-/*ÉÅÉjÉÖÅ[*/
+/* =========================
+   „É°„Ç§„É≥„Ç≥„É≥„ÉÜ„Éä
+========================= */
+
+.container {
+    width: 400px;
+    margin: 40px auto;
+}
+
+/* =========================
+   „É°„Éã„É•„Éº
+========================= */
 
 .menu {
     width: 300px;
-    margin: 50px auto;
+    margin: 40px auto;
 
     display: flex;
     flex-direction: column;
     gap: 20px;
 }
 
-/*É{É^Éì*/
+/* =========================
+   „Éï„Ç©„Éº„É†
+========================= */
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+label {
+    margin-bottom: 8px;
+    font-weight: bold;
+}
+
+input,
+select {
+    padding: 10px;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    font-size: 16px;
+}
+
+/* =========================
+   „Éú„Çø„É≥
+========================= */
 
 button {
+
+    width: 100%;
 
     padding: 15px;
 
@@ -46,6 +88,8 @@ button {
     color: white;
 
     transition: 0.3s;
+
+    margin-top: 10px;
 }
 
 button:hover {
@@ -54,45 +98,46 @@ button:hover {
 
 }
 
-/*ÉtÉHÅ[ÉÄ*/
-
-.container {
-    width: 400px;
-    margin: 40px auto;
-}
-
-.form-group {
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 20px;
-}
-
-label {
-    margin-bottom: 8px;
-    font-weight: bold;
-}
-
-input {
-    padding: 10px;
-    border: 1px solid #cccccc;
-    border-radius: 8px;
-    font-size: 16px;
-}
-
-/*ó\ñÒÉJÅ[Éh*/
+/* =========================
+   ‰∫àÁ¥Ñ„Ç´„Éº„Éâ
+========================= */
 
 .reservation-card {
+
     background-color: white;
+
     border-radius: 10px;
+
     padding: 20px;
+
     margin-bottom: 20px;
+
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+
 }
 
 .reservation-card h3 {
+
     margin-top: 0;
+
 }
 
 .reservation-card p {
+
     margin: 8px 0;
+
+}
+
+/* =========================
+   „É°„ÉÉ„Çª„Éº„Ç∏
+========================= */
+
+.message {
+
+    text-align: center;
+
+    color: #666;
+
+    margin-top: 20px;
+
 }
