@@ -1,11 +1,14 @@
 from backend.services.reservation_service import ReservationService
 from flask import Flask, render_template, request, redirect, url_for
+from flask import session
 
 app = Flask(
     __name__,
     template_folder="frontend/templates",
     static_folder="frontend"
 ) # Flaskアプリ作成，設定
+
+app.secret_key = "salon-booking-system" # 実用ではランダムな長い文字列とする
 
 
 # --------------------
@@ -20,14 +23,39 @@ def home():
 # --------------------
 @app.route("/reservation")
 def reservation():
-    return render_template("reservation.html")
+
+    # menu_service = MenuService()
+    # stylist_service = StylistService()
+
+    # menus = menu_service.get_all()
+    # stylists = stylist_service.get_all()
+
+    # return render_template(
+    #     "reservation.html",
+    #     menus=menus,
+    #     stylists=stylists
+    # )
+    return render_template("reservation.html") # TODO: MenuService, StylistServiceから一覧を取得して渡す
 
 # --------------------
 # 予約一覧
 # --------------------
 @app.route("/reservation/list")
 def reservation_list():
-    return render_template("reservation_list.html")
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    
+    service = ReservationService()
+
+    reservations = service.get_user_reservations(
+        session["user_id"]
+    )
+
+    return render_template(
+        "reservation_list.html",
+        reservations=reservations
+    )
 
 # --------------------
 # 予約登録
@@ -38,7 +66,7 @@ def create_reservation():
     service = ReservationService() # 予約サービスを利用
 
     # フォームから入力内容を取得
-    user_id = int(request.form["user_id"])
+    user_id = int(request.form["user_id"]) # TODO: 会員機能実装後は session["user_id"] を使用
     menu_ids = [int(menu_id) for menu_id in request.form.getlist("menu_ids")]
     stylist_id = int(request.form["stylist_id"])
     date = request.form["date"]
@@ -75,16 +103,16 @@ def cancel_reservation():
 # --------------------
 # ログイン
 # --------------------
-@app.route("/login")
+@app.route("/login", methods=["GET","POST"])
 def login():
-    return render_template("login.html")
+    return render_template("login.html") # TODO: POST時にAuthServiceで認証
 
 # --------------------
 # 会員登録
 # --------------------
-@app.route("/register")
+@app.route("/register", methods=["GET","POST"])
 def register():
-    return render_template("register.html")
+    return render_template("register.html") # TODO: POST時にAuthServiceで認証
 
 
 # --------------------
@@ -92,7 +120,28 @@ def register():
 # --------------------
 @app.route("/logout")
 def logout():
-    pass
+
+    session.clear()
+
+    return redirect(url_for("home"))
+
+
+# --------------------
+# 履歴
+# --------------------
+# @app.route("/history")
+# def history():
+
+#     service = HistoryService()
+
+#     histories = service.get_history(
+#         session["user_id"]
+#     )
+
+#     return render_template(
+#         "history.html",
+#         histories=histories
+#     )
 
 if __name__ == "__main__": # python main.py で実行されたときだけサーバーを起動
     app.run(debug=True) # コードを保存すると自動で再起動
