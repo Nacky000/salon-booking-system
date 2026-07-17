@@ -395,7 +395,7 @@ Webアプリケーションのエントリーポイント．
 
 * users.json
 {
-    "id": 1,
+    "user_id": 1,
     "name": "山田太郎",
     "email": "yamada@example.com",
     "phone": "090-1234-5678",
@@ -405,7 +405,7 @@ Webアプリケーションのエントリーポイント．
 
 * menus.json
 {
-    "id": 1,
+    "menu_id": 1,
     "name": "カット",
     "price": 4000,
     "duration": 60
@@ -413,7 +413,7 @@ Webアプリケーションのエントリーポイント．
 
 * stylists.json
 {
-    "id": 1,
+    "stylist_id": 1,
     "name": "田中",
     "holiday": ["2026-07-15"]
 }
