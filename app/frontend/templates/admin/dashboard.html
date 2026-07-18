@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>管理画面 | Salon Booking System</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+    <h1>管理ダッシュボード</h1>
+    <p>Salon Booking System 管理画面</p>
+</header>
+
+<main class="admin-menu">
+
+    <!-- 管理メニュー -->
+
+    <button onclick="location.href='/admin/reservations'">
+        予約管理
+    </button>
+
+    <button onclick="location.href='/admin/menus'">
+        メニュー管理
+    </button>
+
+    <button onclick="location.href='/admin/stylists'">
+        美容師管理
+    </button>
+
+    <button onclick="location.href='/admin/calendar'">
+        カレンダー
+    </button>
+
+    <button onclick="location.href='/logout'">
+        ログアウト
+    </button>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/admin.js') }}"></script>
+
+</body>
+</html>

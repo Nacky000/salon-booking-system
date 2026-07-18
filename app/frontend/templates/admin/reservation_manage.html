@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <title>予約管理</title>
+
+    <link rel="stylesheet"
+        href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+
+<h1>予約管理</h1>
+
+</header>
+
+<main class="container">
+
+{% if reservations %}
+
+{% for reservation in reservations %}
+
+<div class="admin-card">
+
+<p><strong>予約ID：</strong>{{ reservation.id }}</p>
+
+<p><strong>会員ID：</strong>{{ reservation.user_id }}</p>
+
+<p><strong>予約日：</strong>{{ reservation.date }}</p>
+
+<p><strong>時間：</strong>{{ reservation.time }}</p>
+
+<button>予約完了</button>
+
+<button>予約削除</button>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<p class="message">予約はありません。</p>
+
+{% endif %}
+
+<button onclick="location.href='/admin'">
+
+戻る
+
+</button>
+
+</main>
+
+</body>
+
+</html>

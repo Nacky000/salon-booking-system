@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+<meta charset="UTF-8">
+<title>メニュー管理</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+<header>
+
+<h1>メニュー管理</h1>
+
+</header>
+
+<main class="container">
+
+{% if menus %}
+
+{% for menu in menus %}
+
+<div class="admin-card">
+
+<h3>{{ menu.name }}</h3>
+
+<p>料金：{{ menu.price }} 円</p>
+
+<p>施術時間：{{ menu.duration }} 分</p>
+
+<button>編集</button>
+
+<button>削除</button>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<p class="message">
+
+メニューがありません。
+
+</p>
+
+{% endif %}
+
+<button>
+
+＋ メニュー追加
+
+</button>
+
+<button onclick="location.href='/admin'">
+
+戻る
+
+</button>
+
+</main>
+
+</body>
+
+</html>

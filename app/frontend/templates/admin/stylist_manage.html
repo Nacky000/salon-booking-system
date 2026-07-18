@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+
+<meta charset="UTF-8">
+
+<title>美容師管理</title>
+
+<link rel="stylesheet"
+href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+<header>
+
+<h1>美容師管理</h1>
+
+</header>
+
+<main class="container">
+
+{% if stylists %}
+
+{% for stylist in stylists %}
+
+<div class="admin-card">
+
+<h3>{{ stylist.name }}</h3>
+
+<p>
+
+休み：
+
+{{ stylist.holiday|join(", ") }}
+
+</p>
+
+<button>編集</button>
+
+<button>削除</button>
+
+</div>
+
+{% endfor %}
+
+{% else %}
+
+<p class="message">
+
+美容師が登録されていません。
+
+</p>
+
+{% endif %}
+
+<button>
+
+＋ 美容師追加
+
+</button>
+
+<button onclick="location.href='/admin'">
+
+戻る
+
+</button>
+
+</main>
+
+</body>
+
+</html>
