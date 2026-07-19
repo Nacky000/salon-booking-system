@@ -62,7 +62,7 @@ class ReservationService:
         return self.repository.load_all()
     
     def get_user_reservations(self, user_id):
-        """ユーザーの予約一覧を取得"""
+        """ユーザーの予約一覧（予約中のみ）"""
 
         reservations = self.repository.load_all()
 
@@ -70,6 +70,7 @@ class ReservationService:
             reservation
             for reservation in reservations
             if reservation.user_id == user_id
+            and reservation.status == "reserved"
         ]
 
     def get_daily_schedule(self, date, stylist_id):
