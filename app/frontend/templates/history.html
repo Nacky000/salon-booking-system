@@ -27,37 +27,29 @@
     <!-- ========================= -->
     <main class="container">
 
-        <!--
-            現在は仮データを表示しています。
-            履歴機能実装後はHistoryServiceから取得した
-            データを一覧表示する予定です。
-        -->
+    {% if histories %}
+
+        {% for history in histories %}
 
         <div class="reservation-card">
 
             <h3>予約履歴</h3>
 
-            <p><strong>会員ID：</strong>1</p>
-            <p><strong>メニュー：</strong>カット</p>
-            <p><strong>美容師：</strong>山田</p>
-            <p><strong>利用日：</strong>2026-06-15</p>
-            <p><strong>利用時間：</strong>13:00</p>
-            <p><strong>ステータス：</strong>施術完了</p>
+            <p><strong>メニュー：</strong>{{ ", ".join(history.menu_names) }}</p>
+            <p><strong>美容師：</strong>{{ history.stylist_name }}</p>
+            <p><strong>利用日：</strong>{{ history.date }}</p>
+            <p><strong>利用時間：</strong>{{ history.time }}</p>
+            <p><strong>ステータス：</strong>{{ history.status_text }}</p>
 
         </div>
 
-        <div class="reservation-card">
+        {% endfor %}
 
-            <h3>予約履歴</h3>
+    {% else %}
 
-            <p><strong>会員ID：</strong>1</p>
-            <p><strong>メニュー：</strong>カラー</p>
-            <p><strong>美容師：</strong>佐藤</p>
-            <p><strong>利用日：</strong>2026-05-20</p>
-            <p><strong>利用時間：</strong>10:00</p>
-            <p><strong>ステータス：</strong>施術完了</p>
+        <p>予約履歴はありません。</p>
 
-        </div>
+    {% endif %}
 
         <!-- トップページへ戻る -->
         <button onclick="location.href='/'">
