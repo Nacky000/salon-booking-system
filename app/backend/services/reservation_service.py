@@ -2,6 +2,8 @@
 from backend.models.reservation import Reservation
 from backend.repositories.reservation_repository import ReservationRepository
 from backend.utils.time_utils import generate_times
+from backend.services.menu_service import MenuService
+from backend.services.stylist_service import StylistService
 
 class ReservationService:
 
@@ -64,14 +66,37 @@ class ReservationService:
     def get_user_reservations(self, user_id):
         """ユーザーの予約一覧（予約中のみ）"""
 
-        reservations = self.repository.load_all()
-
-        return [
+        reservations = [
             reservation
-            for reservation in reservations
+            for reservation in self.repository.load_all()
             if reservation.user_id == user_id
             and reservation.status == "reserved"
         ]
+
+        menu_service = MenuService()
+        stylist_service = StylistService()
+
+        for reservation in reservations:
+
+            # 美容師名
+            stylist = stylist_service.get_by_id(reservation.stylist_id)
+            reservation.stylist_name = stylist.name if stylist else "不明"
+
+            # メニュー名
+            menu_names = []
+
+            for menu_id in reservation.menu_ids:
+                menu = menu_service.get_by_id(menu_id)
+
+                if menu:
+                    menu_names.append(menu.name)
+
+            reservation.menu_names = menu_names
+
+            # 日本語ステータス
+            reservation.status_text = "予約中"
+
+        return reservations
 
     def get_daily_schedule(self, date, stylist_id):
         """予約可能時間確認"""
