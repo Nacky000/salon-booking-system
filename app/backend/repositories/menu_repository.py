@@ -54,7 +54,7 @@ class MenuRepository:
 
         menus = self.load_menus()
 
-        menus = [m for m in menus if m.id != menu_id]
+        menus = [m for m in menus if m.menu_id != menu_id]
 
         self.save_menus(menus)
 
