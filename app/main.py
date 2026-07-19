@@ -31,6 +31,9 @@ def home():
 @app.route("/reservation")
 def reservation():
 
+    if "user_id" not in session:
+        return redirect(url_for("login", next=request.path))
+
     menu_service = MenuService()
     stylist_service = StylistService()
 
@@ -50,7 +53,7 @@ def reservation():
 def reservation_list():
 
     if "user_id" not in session:
-        return redirect(url_for("login"))
+        return redirect(url_for("login", next=request.path))
     
     service = ReservationService()
 
@@ -128,9 +131,17 @@ def login():
         if user is None:
             return "メールアドレスまたはパスワードが違います"
 
+        # ログイン状態を保存
         session["user_id"] = user.user_id
 
-        return redirect(url_for("home"))
+        # 元の画面へ戻る
+        next_page = request.args.get("next")
+
+        if next_page:
+            return redirect(next_page)
+
+        # 指定がなければ予約画面へ
+        return redirect(url_for("reservation"))
 
     return render_template("login.html")
 
@@ -188,8 +199,8 @@ def logout():
 def history():
 
     if "user_id" not in session:
-        return redirect(url_for("login"))
-
+        return redirect(url_for("login", next=request.path))
+    
     service = HistoryService()
 
     histories = service.get_history(
