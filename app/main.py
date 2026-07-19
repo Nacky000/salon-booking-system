@@ -11,7 +11,8 @@ from flask import Flask, render_template, request, redirect, url_for, session
 app = Flask(
     __name__,
     template_folder="frontend/templates",
-    static_folder="frontend"
+    static_folder="frontend",
+    static_url_path="/"
 ) # Flaskアプリ作成，設定
 
 app.secret_key = "salon-booking-system" # 実用ではランダムな長い文字列とする
