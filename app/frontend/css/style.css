@@ -188,4 +188,8 @@ button:hover {
     padding: 8px;
     margin: 3px 0;
     font-size: 16px;
+    background-color: white;
+    color: black;
+    border: 1px solid #cccccc;
+    border-radius: 8px;
 }
