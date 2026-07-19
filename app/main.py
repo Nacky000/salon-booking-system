@@ -200,12 +200,10 @@ def history():
 
     if "user_id" not in session:
         return redirect(url_for("login", next=request.path))
-    
+
     service = HistoryService()
 
-    histories = service.get_history(
-        session["user_id"]
-    )
+    histories = service.get_history(session["user_id"])
 
     return render_template(
         "history.html",
