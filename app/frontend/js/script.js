@@ -67,6 +67,9 @@ document.addEventListener("DOMContentLoaded", () => {
     const timeInput =
         document.getElementById("time");
 
+    const menuSelect =
+        document.getElementById("menu_ids");
+
 
     function loadTimes(){
 
@@ -77,10 +80,6 @@ document.addEventListener("DOMContentLoaded", () => {
         if(!stylistId || !date){
             return;
         }
-
-
-        const menuSelect =
-            document.getElementById("menu_ids");
 
         const menuIds =
             Array.from(menuSelect.selectedOptions)
@@ -93,13 +92,9 @@ document.addEventListener("DOMContentLoaded", () => {
         .then(response => response.json())
         .then(schedule => {
 
-
             timeArea.innerHTML = "";
 
-
             for(let time in schedule){
-
-
                 const button =
                     document.createElement("button");
 
@@ -127,11 +122,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
                         button.classList.add("selected");
-
                     };
-
                 }
-
                 timeArea.appendChild(button);
             }
         });
