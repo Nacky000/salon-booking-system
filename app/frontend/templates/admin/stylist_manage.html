@@ -38,34 +38,50 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 </p>
 
-<button>編集</button>
+<button type="button"
+onclick="showEdit('{{stylist.stylist_id}}')">編集</button>
 
 <form action="/admin/stylist/add" method="POST">
-
-<input name="name" placeholder="美容師名">
-
-<input name="holiday" placeholder="休日">
-
-<button type="submit">
-追加
-</button>
-
-</form>
-
-<button>削除</button>
-
-<form action="/admin/stylist/delete" method="POST">
 
 <input 
 type="hidden"
 name="stylist_id"
 value="{{stylist.stylist_id}}">
 
-<button>
-削除
-</button>
+<button type="submit">削除</button>
 
 </form>
+
+<!-- 編集フォーム -->
+
+<div id="edit-{{stylist.stylist_id}}"
+style="display:none;">
+
+<form action="/admin/stylist/update"
+method="POST">
+
+<input 
+type="hidden"
+name="stylist_id"
+value="{{stylist.stylist_id}}">
+
+<label>美容師名</label>
+
+<input 
+name="name"
+value="{{stylist.name}}">
+
+<label>休日</label>
+
+<input 
+name="holiday"
+value="{{stylist.holiday|join(',')}}">
+
+<button type="submit">更新</button>
+
+</form>
+
+</div>
 
 </div>
 
@@ -73,27 +89,72 @@ value="{{stylist.stylist_id}}">
 
 {% else %}
 
-<p class="message">
-
-美容師が登録されていません。
-
-</p>
+<p class="message">美容師が登録されていません。</p>
 
 {% endif %}
 
-<button>
+<button type="button"
+onclick="showAdd()">
 
 ＋ 美容師追加
 
 </button>
 
-<button onclick="location.href='/admin'">
+<div id="add-stylist"
+style="display:none;">
 
-戻る
+<form action="/admin/stylist/add"
+method="POST">
 
-</button>
+<input 
+name="name"
+placeholder="美容師名">
+
+<input 
+name="holiday"
+placeholder="休日（例:2026-07-20,2026-07-25）">
+
+<button type="submit">追加</button>
+
+</form>
+</div>
+
+<button onclick="location.href='/admin'">戻る</button>
 
 </main>
+
+<script>
+function showEdit(id){
+    const form =
+    document.getElementById(
+        "edit-" + id
+    );
+
+    if(form.style.display === "none"){
+        form.style.display="block";
+    }
+    else{
+        form.style.display="none";
+    }
+}
+
+function showAdd(){
+    const area =
+    document.getElementById(
+        "add-stylist"
+    );
+
+    if(area.style.display==="none"){
+        area.style.display="block";
+    }
+    else{
+        area.style.display="none";
+    }
+}
+
+</script>
+
+
 
 </body>
 

@@ -31,9 +31,30 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 <p>施術時間：{{ menu.duration }} 分</p>
 
-<button>編集</button>
+<button type="button"
+onclick="showEdit('{{menu.menu_id}}')">
+編集
+</button>
 
-<form action="/admin/menu/update" method="POST">
+<form action="/admin/menu/delete" method="POST">
+
+<input 
+type="hidden"
+name="menu_id"
+value="{{ menu.menu_id }}"
+>
+
+<button type="submit">削除</button>
+
+</form>
+
+<!-- 編集フォーム -->
+
+<div id="edit-{{menu.menu_id}}"
+style="display:none;">
+
+<form action="/admin/menu/update"
+method="POST">
 
 <input type="hidden"
 name="menu_id"
@@ -51,27 +72,11 @@ value="{{menu.price}}">
 name="duration"
 value="{{menu.duration}}">
 
-<button type="submit">
-更新
-</button>
+<button type="submit">更新</button>
 
 </form>
 
-<button>削除</button>
-
-<form action="/admin/menu/delete" method="POST">
-
-<input 
-type="hidden"
-name="menu_id"
-value="{{ menu.menu_id }}"
->
-
-<button type="submit">
-削除
-</button>
-
-</form>
+</div>
 
 </div>
 
@@ -79,41 +84,70 @@ value="{{ menu.menu_id }}"
 
 {% else %}
 
-<p class="message">
-
-メニューがありません。
-
-</p>
+<p class="message">メニューがありません。</p>
 
 {% endif %}
 
-<button>
-
+<button type="button"
+onclick="showAdd()">
 ＋ メニュー追加
-
 </button>
+
+<div id="add-menu"
+style="display:none;">
 
 <form action="/admin/menu/add" method="POST">
 
-<input name="name" placeholder="メニュー名">
+<input name="name"
+placeholder="メニュー名">
 
-<input name="price" placeholder="料金">
+<input name="price"
+placeholder="料金">
 
-<input name="duration" placeholder="時間">
+<input name="duration"
+placeholder="時間">
 
-<button type="submit">
-追加
-</button>
+<button type="submit">追加</button>
 
 </form>
 
-<button onclick="location.href='/admin'">
+</div>
 
-戻る
-
-</button>
+<button onclick="location.href='/admin'">戻る</button>
 
 </main>
+
+<script>
+
+function showEdit(id){
+    const form =
+    document.getElementById(
+        "edit-" + id
+    );
+
+    if(form.style.display === "none"){
+        form.style.display="block";
+    }
+    else{
+        form.style.display="none";
+    }
+}
+
+function showAdd(){
+    const area =
+    document.getElementById(
+        "add-menu"
+    );
+
+    if(area.style.display==="none"){
+        area.style.display="block";
+    }
+    else{
+        area.style.display="none";
+    }
+}
+
+</script>
 
 </body>
 
