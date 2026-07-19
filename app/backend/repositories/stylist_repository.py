@@ -37,7 +37,7 @@ class StylistRepository:
         stylists = self.load_stylists()
 
         for stylist in stylists:
-            if stylist.id == stylist_id:
+            if stylist.stylist_id == stylist_id:
                 return stylist
 
         return None

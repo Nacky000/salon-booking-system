@@ -27,7 +27,7 @@ class StylistService:
         stylists = self.repository.load_stylists()
 
         if stylists:
-            new_id = max(stylist.id for stylist in stylists) + 1
+            new_id = max(stylist.stylist_id for stylist in stylists) + 1
         else:
             new_id = 1
 
@@ -49,7 +49,7 @@ class StylistService:
         stylists = self.repository.load_stylists()
 
         for stylist in stylists:
-            if stylist.id == stylist_id:
+            if stylist.stylist_id == stylist_id:
                 stylist.name = name
                 stylist.holiday = holiday
 

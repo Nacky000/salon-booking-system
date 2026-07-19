@@ -4,7 +4,7 @@ from dataclasses import dataclass, field
 class Stylist:
     """美容師情報"""
 
-    id: int
+    stylist_id: int
     name: str
     holiday: list[str] = field(default_factory=list)
 
