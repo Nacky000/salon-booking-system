@@ -4,7 +4,7 @@ from dataclasses import dataclass
 class User:
     """会員情報"""
 
-    id: int                 # 会員ID
+    user_id: int                 # 会員ID
     name: str               # 名前
     email: str              # メールアドレス
     phone: str              # 電話番号

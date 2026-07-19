@@ -5,85 +5,85 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ページタイトル -->
     <title>予約画面 | Salon Booking System</title>
 
-    <!-- CSS -->
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 
 <body>
 
-    <!-- ヘッダー -->
-    <header>
-        <h1>予約画面</h1>
-        <p>予約情報を入力してください</p>
-    </header>
+<header>
+    <h1>予約画面</h1>
+    <p>予約情報を入力してください</p>
+</header>
 
-    <!-- 予約フォーム -->
-    <main class="container">
+<main class="container">
 
-        <form action="/reservation/create" method="POST">
+<form action="/reservation/create" method="POST">
 
-            <!-- 会員ID -->
-            <div class="form-group">
-                <label for="user_id">会員ID</label>
-                <input
-                    type="number"
-                    id="user_id"
-                    name="user_id"
-                    placeholder="会員IDを入力"
-                    required>
-            </div>
+    <!-- メニュー -->
+    <div class="form-group">
+        <label for="menu_ids">メニュー</label>
 
-    
-            <!-- 美容師ID -->
-            <div class="form-group">
-                <label for="stylist_id">美容師ID</label>
-                <input
-                    type="number"
-                    id="stylist_id"
-                    name="stylist_id"
-                    placeholder="美容師IDを入力"
-                    required>
-            </div>
+        <select id="menu_ids" name="menu_ids" multiple required>
+            {% for menu in menus %}
+            <option value="{{ menu.menu_id }}">
+                {{ menu.name }}（{{ menu.price }}円・{{ menu.duration }}分）
+            </option>
+            {% endfor %}
+        </select>
 
-            <!-- 予約日 -->
-            <div class="form-group">
-                <label for="date">予約日</label>
-                <input
-                    type="date"
-                    id="date"
-                    name="date"
-                    required>
-            </div>
+        <small>※Ctrl（Macは⌘）を押しながら複数選択できます。</small>
+    </div>
 
-            <!-- 予約時間 -->
-            <div class="form-group">
-                <label for="time">予約時間</label>
-                <input
-                    type="time"
-                    id="time"
-                    name="time"
-                    required>
-            </div>
+    <!-- 美容師 -->
+    <div class="form-group">
+        <label for="stylist_id">担当美容師</label>
 
-            <!-- 予約ボタン -->
-            <button type="submit">
-                予約する
-            </button>
+        <select id="stylist_id" name="stylist_id" required>
+            {% for stylist in stylists %}
+            <option value="{{ stylist.stylist_id }}">
+                {{ stylist.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
 
-        </form>
+    <!-- 日付 -->
+    <div class="form-group">
+        <label for="date">予約日</label>
 
-        <!-- トップページへ戻る -->
-        <button onclick="location.href='/'">
-            トップへ戻る
-        </button>
+        <input
+            type="date"
+            id="date"
+            name="date"
+            required>
+    </div>
 
-    </main>
+    <!-- 時間 -->
+    <div class="form-group">
+        <label for="time">予約時間</label>
 
-    <!-- JavaScript -->
-    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+        <input
+            type="time"
+            id="time"
+            name="time"
+            required>
+    </div>
+
+    <button type="submit">
+        予約する
+    </button>
+
+</form>
+
+<button onclick="location.href='/'">
+    トップへ戻る
+</button>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>
 

@@ -20,12 +20,12 @@ class UserService:
 
         # 新しいIDを採番
         if users:
-            new_id = max(user.id for user in users) + 1
+            new_id = max(user.user_id for user in users) + 1
         else:
             new_id = 1
 
         new_user = User(
-            id=new_id,
+            user_id=new_id,
             name=name,
             email=email,
             phone=phone,

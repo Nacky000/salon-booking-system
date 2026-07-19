@@ -45,7 +45,7 @@ class UserRepository:
         users = self.load_users()
 
         for user in users:
-            if user.id == user_id:
+            if user.user_id == user_id:
                 return user
 
         return None

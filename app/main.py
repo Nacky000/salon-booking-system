@@ -1,6 +1,10 @@
 from backend.services.reservation_service import ReservationService
 from backend.services.admin_service import AdminService
 from backend.services.history_service import HistoryService
+from backend.services.user_service import UserService
+from backend.services.menu_service import MenuService
+from backend.services.stylist_service import StylistService
+from backend.services.auth_service import AuthService
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(
@@ -27,18 +31,17 @@ def home():
 @app.route("/reservation")
 def reservation():
 
-    # menu_service = MenuService()
-    # stylist_service = StylistService()
+    menu_service = MenuService()
+    stylist_service = StylistService()
 
-    # menus = menu_service.get_all()
-    # stylists = stylist_service.get_all()
+    menus = menu_service.get_all()
+    stylists = stylist_service.get_all()
 
-    # return render_template(
-    #     "reservation.html",
-    #     menus=menus,
-    #     stylists=stylists
-    # )
-    return render_template("reservation.html") # TODO: MenuService, StylistServiceから一覧を取得して渡す
+    return render_template(
+        "reservation.html",
+        menus=menus,
+        stylists=stylists
+    )
 
 # --------------------
 # 予約一覧
@@ -66,16 +69,20 @@ def reservation_list():
 @app.route("/reservation/create", methods=["POST"])
 def create_reservation():
 
-    service = ReservationService() # 予約サービスを利用
+    # ログイン確認
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
-    # フォームから入力内容を取得
-    user_id = int(request.form["user_id"]) # TODO: 会員機能実装後は session["user_id"] を使用
+    service = ReservationService()
+
+    # ログインユーザーのIDを使用
+    user_id = session["user_id"]
+
     menu_ids = [int(menu_id) for menu_id in request.form.getlist("menu_ids")]
     stylist_id = int(request.form["stylist_id"])
     date = request.form["date"]
     time = request.form["time"]
 
-    # 予約登録を実行
     success = service.create_reservation(
         user_id=user_id,
         menu_ids=menu_ids,
@@ -84,10 +91,10 @@ def create_reservation():
         time=time,
     )
 
-    if success: # 登録成功なら予約一覧へ移動
+    if success:
         return redirect(url_for("reservation_list"))
 
-    return "この時間は予約できません", 400 # 同じ時間に予約がある場合
+    return "この時間は予約できません", 400
 
 # --------------------
 # 予約キャンセル
@@ -106,16 +113,61 @@ def cancel_reservation():
 # --------------------
 # ログイン
 # --------------------
-@app.route("/login", methods=["GET","POST"])
+@app.route("/login", methods=["GET", "POST"])
 def login():
-    return render_template("login.html") # TODO: POST時にAuthServiceで認証
+
+    if request.method == "POST":
+
+        auth = AuthService()
+
+        email = request.form["email"]
+        password = request.form["password"]
+
+        user = auth.login(email, password)
+
+        if user is None:
+            return "メールアドレスまたはパスワードが違います"
+
+        session["user_id"] = user.user_id
+
+        return redirect(url_for("home"))
+
+    return render_template("login.html")
 
 # --------------------
 # 会員登録
 # --------------------
-@app.route("/register", methods=["GET","POST"])
+@app.route("/register", methods=["GET", "POST"])
 def register():
-    return render_template("register.html") # TODO: POST時にAuthServiceで認証
+
+    if request.method == "POST":
+
+        name = request.form["name"]
+        email = request.form["email"]
+        phone = request.form["phone"]
+        password = request.form["password"]
+        confirm_password = request.form["confirm_password"]
+
+        # パスワード確認
+        if password != confirm_password:
+            return "パスワードが一致しません", 400
+
+        service = UserService()
+
+        try:
+            service.register_user(
+                name,
+                email,
+                phone,
+                password
+            )
+
+            return redirect(url_for("login"))
+
+        except ValueError as e:
+            return str(e), 400
+
+    return render_template("register.html")
 
 
 # --------------------
