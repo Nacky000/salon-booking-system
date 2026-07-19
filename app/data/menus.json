@@ -8,7 +8,7 @@
     {
         "menu_id": 2,
         "name": "カラー",
-        "price": 6000,
+        "price": 5000,
         "duration": 90
     },
     {
@@ -16,5 +16,11 @@
         "name": "パーマ",
         "price": 8000,
         "duration": 120
+    },
+    {
+        "menu_id": 4,
+        "name": "トリートメント",
+        "price": 2000,
+        "duration": 30
     }
 ]

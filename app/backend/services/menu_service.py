@@ -27,7 +27,7 @@ class MenuService:
         menus = self.repository.load_menus()
 
         if menus:
-            new_id = max(menu.id for menu in menus) + 1
+            new_id = max(menu.menu_id for menu in menus) + 1
         else:
             new_id = 1
 

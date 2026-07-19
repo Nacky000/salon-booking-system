@@ -56,7 +56,7 @@ class StylistRepository:
 
         stylists = self.load_stylists()
 
-        stylists = [s for s in stylists if s.id != stylist_id]
+        stylists = [s for s in stylists if s.stylist_id != stylist_id]
 
         self.save_stylists(stylists)
 

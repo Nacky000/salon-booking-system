@@ -33,9 +33,51 @@
 
 <p><strong>時間：</strong>{{ reservation.time }}</p>
 
-<button>予約完了</button>
+<p><strong>現在の状態：</strong>{{ reservation.status }}</p>
 
-<button>予約削除</button>
+<button type="button"
+onclick="showEdit('{{reservation.id}}')">予約ステータス変更</button>
+
+<!-- 編集フォーム -->
+
+<div id="edit-{{reservation.id}}"style="display:none;">
+<form action="/admin/reservation/status"method="POST">
+
+<input
+type="hidden"
+name="reservation_id"
+value="{{reservation.id}}">
+
+<div class="form-group">
+
+<label>ステータス</label>
+
+<select name="status">
+
+<option value="reserved"
+{% if reservation.status == "reserved" %}
+selected
+{% endif %}>予約中</option>
+
+<option value="completed"
+{% if reservation.status == "completed" %}
+selected
+{% endif %}>完了</option>
+
+<option value="cancelled"
+{% if reservation.status == "cancelled" %}
+selected
+{% endif %}>キャンセル</option>
+
+</select>
+
+</div>
+
+<button type="submit">更新</button>
+
+</form>
+
+</div>
 
 </div>
 
@@ -43,7 +85,8 @@
 
 {% else %}
 
-<p class="message">予約はありません。</p>
+
+<p class="message">予約はありません</p>
 
 {% endif %}
 
@@ -54,6 +97,24 @@
 </button>
 
 </main>
+
+<script>
+
+function showEdit(id){
+    const form =
+    document.getElementById(
+        "edit-" + id
+    );
+
+    if(form.style.display === "none"){
+        form.style.display = "block";
+    }
+    else{
+        form.style.display = "none";
+    }
+}
+
+</script>
 
 </body>
 

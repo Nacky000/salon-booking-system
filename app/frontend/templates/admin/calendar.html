@@ -22,12 +22,78 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 <main class="container">
 
+{% for m in months %}
+
 <div class="admin-card">
 
-<h3>カレンダー</h3>
+<h2>
+{{m.year}}年{{m.month}}月
+</h2>
 
+<table border="1">
+
+<tr>
+
+<th>日</th>
+<th>月</th>
+<th>火</th>
+<th>水</th>
+<th>木</th>
+<th>金</th>
+<th>土</th>
+
+</tr>
+
+{% for week in m.calendar %}
+
+<tr>
+
+{% for day in week %}
+
+<td style="width:80px;height:60px;">
+
+{% if day != 0 %}
+
+<strong>
+{{day}}日
+</strong>
+
+{% set count = 0 %}
+
+{% for r in reservations %}
+
+{% if r.date == 
+m.year|string + "-" +
+"%02d"|format(m.month) +
+"-" +
+"%02d"|format(day)
+%}
+
+{% set count = count + 1 %}
+
+{% endif %}
+
+{% endfor %}
+
+<p>
+{{count}}件
+</p>
+
+{% endif %}
+
+</td>
+
+{% endfor %}
+
+</tr>
+
+{% endfor %}
+
+</table>
 
 </div>
+
+{% endfor %}
 
 <button onclick="location.href='/admin'">
 

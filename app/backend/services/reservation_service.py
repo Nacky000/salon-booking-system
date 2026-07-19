@@ -206,3 +206,39 @@ class ReservationService:
 
 
         return schedule
+    
+    def update_status(
+        self,
+        reservation_id,
+        status
+    ):
+        """予約ステータス変更"""
+
+        reservations = self.repository.load_all()
+
+
+        for reservation in reservations:
+
+            if reservation.id == reservation_id:
+
+                reservation.status = status
+
+                self.repository.save_all(
+                    reservations
+                )
+
+                return True
+
+
+        return False
+    
+    def get_reservations_by_date(self, date):
+        """指定日の予約取得"""
+
+        reservations = self.repository.load_all()
+
+        return [
+            r
+            for r in reservations
+            if r.date == date
+        ]

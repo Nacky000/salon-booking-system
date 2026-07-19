@@ -1,20 +1,21 @@
 from backend.services.menu_service import MenuService
 from backend.services.user_service import UserService
 from backend.services.stylist_service import StylistService
-
+from backend.services.reservation_service import ReservationService
 
 class AdminService:
     """
     管理画面で利用するサービス
 
-    ReservationService は他担当が実装するため、
-    現時点ではメニュー・会員・美容師の管理のみ担当する。
+    管理画面はAdminServiceを窓口として利用し、
+    各Serviceを直接操作しない。
     """
 
     def __init__(self):
         self.menu_service = MenuService()
         self.user_service = UserService()
         self.stylist_service = StylistService()
+        self.reservation_service = ReservationService()
 
     # --------------------
     # ダッシュボード
@@ -28,11 +29,13 @@ class AdminService:
         users = self.user_service.get_all_users()
         menus = self.menu_service.get_all()
         stylists = self.stylist_service.get_all()
+        reservations = self.reservation_service.get_reservations()
 
         return {
             "user_count": len(users),
             "menu_count": len(menus),
-            "stylist_count": len(stylists)
+            "stylist_count": len(stylists),
+            "reservation_count": len(reservations)
         }
 
     # --------------------
@@ -77,8 +80,11 @@ class AdminService:
     def get_all_stylists(self):
         return self.stylist_service.get_all()
 
-    def add_stylist(self, name):
-        return self.stylist_service.add_stylist(name)
+    def add_stylist(self, name, holiday):
+        return self.stylist_service.add_stylist(
+            name,
+            holiday
+        )
 
     def update_stylist(self, stylist_id, name, holiday):
         return self.stylist_service.update_stylist(
@@ -90,3 +96,10 @@ class AdminService:
     def delete_stylist(self, stylist_id):
         self.stylist_service.delete_stylist(stylist_id)
 # 管理画面は各Serviceを直接触らず、AdminServiceだけを呼び出せばよいという設計になります。
+
+    # --------------------
+    # 予約
+    # --------------------
+
+    def get_all_reservations(self):
+        return self.reservation_service.get_reservations()

@@ -19,7 +19,7 @@ class StylistService:
         """
         return self.repository.find_by_id(stylist_id)
 
-    def add_stylist(self, name):
+    def add_stylist(self, name, holiday):
         """
         美容師追加
         """
@@ -32,9 +32,9 @@ class StylistService:
             new_id = 1
 
         stylist = Stylist(
-            id=new_id,
+            stylist_id=new_id,
             name=name,
-            holiday=[]
+            holiday=holiday
         )
 
         self.repository.add_stylist(stylist)

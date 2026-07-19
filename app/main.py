@@ -8,6 +8,10 @@ from backend.services.auth_service import AuthService
 from flask import jsonify
 from flask import Flask, render_template, request, redirect, url_for, session
 
+import json
+import calendar
+from datetime import datetime
+
 app = Flask(
     __name__,
     template_folder="frontend/templates",
@@ -404,14 +408,11 @@ def admin_stylists():
         stylists=stylists
     )
 
-
-
-
 # --------------------
-# 美容師更新
+# 美容師追加
 # --------------------
-@app.route("/admin/stylist/update", methods=["POST"])
-def admin_update_stylist():
+@app.route("/admin/stylist/add", methods=["POST"])
+def admin_add_stylist():
 
     if "user_id" not in session:
         return redirect(url_for("login"))
@@ -419,9 +420,38 @@ def admin_update_stylist():
     if session.get("role") != "admin":
         return "管理者のみアクセスできます", 403
 
-    stylist_id = int(request.form["stylist_id"])
     name = request.form["name"]
-    holiday = request.form["holiday"]
+
+    holiday = json.loads(
+        request.form["holiday"]
+    )
+
+    admin_service.add_stylist(
+        name,
+        holiday
+    )
+    return redirect(url_for("admin_stylists"))
+
+
+# --------------------
+# 美容師更新
+# --------------------
+@app.route("/admin/stylist/update", methods=["POST"])
+def admin_update_stylist():
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
+    stylist_id = int(
+        request.form["stylist_id"]
+    )
+
+    name = request.form["name"]
+
+    holiday = json.loads(
+        request.form["holiday"]
+    )
 
     admin_service.update_stylist(
         stylist_id,
@@ -429,8 +459,10 @@ def admin_update_stylist():
         holiday
     )
 
-    return redirect(url_for("admin_stylists"))
 
+    return redirect(
+        url_for("admin_stylists")
+    )
 
 
 # --------------------
@@ -472,6 +504,38 @@ def admin_reservations():
         reservations=reservations
     )
 
+# --------------------
+# 予約ステータス変更
+# --------------------
+@app.route("/admin/reservation/status", methods=["POST"])
+def admin_update_reservation_status():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
+
+    reservation_id = int(
+        request.form["reservation_id"]
+    )
+
+    status = request.form["status"]
+
+
+    service = ReservationService()
+
+    service.update_status(
+        reservation_id,
+        status
+    )
+
+
+    return redirect(
+        url_for("admin_reservations")
+    )
+
 
 # --------------------
 # カレンダー
@@ -485,10 +549,40 @@ def admin_calendar():
     if session.get("role") != "admin":
         return "管理者のみアクセスできます", 403
 
+    service = ReservationService()
+    reservations = service.get_reservations()
+    today = datetime.today()
+
+    months = []
+
+    for i in range(2):
+        year = today.year
+        month = today.month + i
+
+        if month > 12:
+            year += 1
+            month -= 12
+
+        cal = calendar.monthcalendar(
+            year,
+            month
+        )
+
+        months.append({
+            "year": year,
+            "month": month,
+            "calendar": cal
+        })
+
     return render_template(
-        "admin/calendar.html"
+        "admin/calendar.html",
+        months=months,
+        reservations=reservations
     )
+
 
 if __name__ == "__main__": # python main.py で実行されたときだけサーバーを起動
     app.run(debug=True) # コードを保存すると自動で再起動
+
+
 

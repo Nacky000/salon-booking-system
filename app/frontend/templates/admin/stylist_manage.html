@@ -1,161 +1,348 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
-
 <meta charset="UTF-8">
-
 <title>美容師管理</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+<style>
+/* カレンダー全体の囲い */
+.calendar-container {
+    margin: 15px 0;
+    max-width: 320px;
+    background: #f9f9f9;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+}
 
-<link rel="stylesheet"
-href="{{ url_for('static', filename='css/style.css') }}">
+/* ヘッダー（月移動とタイトル）の調整 */
+.calendar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+.calendar-header h4 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+}
+/* 矢印ボタンのデザイン */
+.calendar-header .cal-btn {
+    padding: 2px 10px !important;
+    font-size: 0.8rem !important;
+    width: auto !important;
+    min-width: unset !important;
+    line-height: 1.2 !important;
+    display: inline-block !important;
+}
 
+/* 日付・曜日のグリッド表示 (7列) */
+.calendar-grid {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    gap: 6px;
+    justify-items: center;
+}
+.wd_header {
+    font-weight: bold;
+    text-align: center;
+    font-size: 0.8rem;
+    color: #666;
+    padding-bottom: 5px;
+    width: 100%;
+}
+.day {
+    width: 36px;
+    height: 36px;
+    border: 1px solid #eef0f2;
+    background: #fff;
+    text-align: center;
+    line-height: 36px;
+    cursor: pointer;
+    border-radius: 4px;
+    user-select: none;
+    font-size: 0.85rem;
+    box-sizing: border-box;
+}
+.day:hover {
+    background: #f0f2f5;
+}
+
+/* 休日として選択された状態 */
+.day.selected {
+    background: #e74c3c !important;
+    color: white !important;
+    border-color: #e74c3c !important;
+    font-weight: bold;
+}
+
+/* 空白マスの調整 */
+.empty-day {
+    width: 36px;
+    height: 36px;
+}
+
+/* 曜日の色分け */
+.wd_header:nth-child(1), .day_sun { color: #e74c3c; } /* 日曜 */
+.wd_header:nth-child(7), .day_sat { color: #3498db; }  /* 土曜 */
+
+/* フォームの調整 */
+.admin-card {
+    border: 1px solid #ccc;
+    padding: 15px;
+    margin-bottom: 15px;
+    border-radius: 5px;
+    background: #fff;
+}
+.edit-area {
+    margin-top: 15px;
+    border-top: 1px dashed #ccc;
+    padding-top: 15px;
+}
+</style>
 </head>
-
 <body>
 
 <header>
-
-<h1>美容師管理</h1>
-
+    <h1>美容師管理</h1>
 </header>
 
 <main class="container">
-
-{% if stylists %}
-
 {% for stylist in stylists %}
-
 <div class="admin-card">
+    <h3>{{ stylist.name }}</h3>
+    <p>
+        休日：
+        <span id="holiday-display-{{stylist.stylist_id}}">
+        {% for h in stylist.holiday %}
+            {{ h }}{% if not loop.last %}, {% endif %}
+        {% endfor %}
+        </span>
+    </p>
 
-<h3>{{ stylist.name }}</h3>
+    <!-- 編集ボタン -->
+    <button type="button" onclick="showEdit('{{stylist.stylist_id}}')">編集</button>
 
-<p>
+    <form action="/admin/stylist/delete" method="POST" style="display:inline;">
+        <input type="hidden" name="stylist_id" value="{{stylist.stylist_id}}">
+        <button type="submit" onclick="return confirm('本当に削除しますか？')">削除</button>
+    </form>
 
-休み：
+    <!-- 編集フォーム -->
+    <div id="edit-{{stylist.stylist_id}}" class="edit-area" style="display:none;">
+        <form action="/admin/stylist/update" method="POST">
+            <input type="hidden" name="stylist_id" value="{{stylist.stylist_id}}">
+            <p>
+                <label>美容師名：</label>
+                <input name="name" value="{{stylist.name}}" required>
+            </p>
 
-{{ stylist.holiday|join(", ") }}
+            <h4>休日設定（クリックで選択/解除）</h4>
+            <div id="calendar-edit-{{stylist.stylist_id}}"></div>
+            <input type="hidden" name="holiday" id="holiday-edit-{{stylist.stylist_id}}">
 
-</p>
-
-<button type="button"
-onclick="showEdit('{{stylist.stylist_id}}')">編集</button>
-
-<form action="/admin/stylist/add" method="POST">
-
-<input 
-type="hidden"
-name="stylist_id"
-value="{{stylist.stylist_id}}">
-
-<button type="submit">削除</button>
-
-</form>
-
-<!-- 編集フォーム -->
-
-<div id="edit-{{stylist.stylist_id}}"
-style="display:none;">
-
-<form action="/admin/stylist/update"
-method="POST">
-
-<input 
-type="hidden"
-name="stylist_id"
-value="{{stylist.stylist_id}}">
-
-<label>美容師名</label>
-
-<input 
-name="name"
-value="{{stylist.name}}">
-
-<label>休日</label>
-
-<input 
-name="holiday"
-value="{{stylist.holiday|join(',')}}">
-
-<button type="submit">更新</button>
-
-</form>
-
+            <br>
+            <button type="submit">この内容で更新する</button>
+        </form>
+    </div>
 </div>
-
-</div>
-
 {% endfor %}
 
-{% else %}
+<br>
+<button type="button" onclick="showAdd()">＋ 新しい美容師を追加</button>
 
-<p class="message">美容師が登録されていません。</p>
+<!-- 追加フォーム -->
+<div id="add-area" style="display:none; margin-top: 20px; padding: 15px; border: 1px solid #ccc; background: #fff;">
+    <form action="/admin/stylist/add" method="POST">
+        <p>
+            <label>美容師名：</label>
+            <input name="name" placeholder="美容師名" required>
+        </p>
 
-{% endif %}
+        <h4>休日設定</h4>
+        <div id="calendar-add"></div>
+        <input type="hidden" name="holiday" id="holiday-add">
 
-<button type="button"
-onclick="showAdd()">
-
-＋ 美容師追加
-
-</button>
-
-<div id="add-stylist"
-style="display:none;">
-
-<form action="/admin/stylist/add"
-method="POST">
-
-<input 
-name="name"
-placeholder="美容師名">
-
-<input 
-name="holiday"
-placeholder="休日（例:2026-07-20,2026-07-25）">
-
-<button type="submit">追加</button>
-
-</form>
+        <br>
+        <button type="submit">追加登録</button>
+    </form>
 </div>
 
+<br><br>
 <button onclick="location.href='/admin'">戻る</button>
-
 </main>
 
 <script>
-function showEdit(id){
-    const form =
-    document.getElementById(
-        "edit-" + id
-    );
+// すべてのカレンダー描画関数をIDごとに独立させて保持するオブジェクト
+let calendarDrawFunctions = {}; 
 
-    if(form.style.display === "none"){
-        form.style.display="block";
+document.addEventListener("DOMContentLoaded", () => {
+    // 1. 各スタイリストの編集カレンダーを完全に独立させて初期化
+    {% for stylist in stylists %}
+    (function() {
+        // ループ内で変数が上書きされないよう即時関数でスコープを分ける
+        const sId = "{{stylist.stylist_id}}";
+        const currentHolidays = {{ stylist.holiday|tojson }};
+        
+        calendarDrawFunctions[sId] = createCalendar(
+            "calendar-edit-" + sId,
+            currentHolidays,
+            "holiday-edit-" + sId
+        );
+    })();
+    {% endfor %}
+
+    // 2. 追加用の新規カレンダー初期化
+    calendarDrawFunctions["add"] = createCalendar("calendar-add", [], "holiday-add");
+});
+
+// カレンダー生成のコアロジック（完全にクロージャ化してスコープを保護）
+function createCalendar(containerId, holidayList, hiddenId) {
+    const container = document.getElementById(containerId);
+    const hiddenInput = document.getElementById(hiddenId);
+    
+    if (!container || !hiddenInput) return null;
+
+    // 現在保持している配列の中身をコピーしてローカルスコープで管理する
+    let localHolidays = [...holidayList];
+    hiddenInput.value = JSON.stringify(localHolidays);
+
+    let current = new Date();
+
+    function draw() {
+        container.innerHTML = "";
+
+        const year = current.getFullYear();
+        const month = current.getMonth() + 1;
+
+        const calWrapper = document.createElement("div");
+        calWrapper.className = "calendar-container";
+
+        // ヘッダー（月移動）
+        const header = document.createElement("div");
+        header.className = "calendar-header";
+
+        const prevBtn = document.createElement("button");
+        prevBtn.type = "button";
+        prevBtn.className = "cal-btn";
+        prevBtn.innerText = "＜";
+        prevBtn.onclick = function(e) {
+            e.preventDefault();
+            current.setMonth(current.getMonth() - 1);
+            draw();
+        };
+
+        const title = document.createElement("h4");
+        title.innerText = `${year}年 ${month}月`;
+
+        const nextBtn = document.createElement("button");
+        nextBtn.type = "button";
+        nextBtn.className = "cal-btn";
+        nextBtn.innerText = "＞";
+        nextBtn.onclick = function(e) {
+            e.preventDefault();
+            current.setMonth(current.getMonth() + 1);
+            draw();
+        };
+
+        header.appendChild(prevBtn);
+        header.appendChild(title);
+        header.appendChild(nextBtn);
+        calWrapper.appendChild(header);
+
+        // 日付グリッド
+        const grid = document.createElement("div");
+        grid.className = "calendar-grid";
+
+        // 曜日ヘッダー
+        const weekdays = ["日", "月", "火", "水", "木", "金", "土"];
+        weekdays.forEach(wd => {
+            const wdDiv = document.createElement("div");
+            wdDiv.className = "wd_header";
+            wdDiv.innerText = wd;
+            grid.appendChild(wdDiv);
+        });
+
+        const firstDayIndex = new Date(year, current.getMonth(), 1).getDay();
+        const daysInMonth = new Date(year, month, 0).getDate();
+
+        // 1日までの空マス
+        for (let x = 0; x < firstDayIndex; x++) {
+            const emptyDiv = document.createElement("div");
+            emptyDiv.className = "empty-day";
+            grid.appendChild(emptyDiv);
+        }
+
+        // 日付マスのマッピングと描画
+        for (let i = 1; i <= daysInMonth; i++) {
+            const dateStr = `${year}-${String(month).padStart(2, "0")}-${String(i).padStart(2, "0")}`;
+            
+            const dayDiv = document.createElement("div");
+            dayDiv.className = "day";
+            dayDiv.innerText = i;
+
+            const dayOfWeek = (firstDayIndex + i - 1) % 7;
+            if (dayOfWeek === 0) dayDiv.classList.add("day_sun");
+            if (dayOfWeek === 6) dayDiv.classList.add("day_sat");
+
+            // 元の休み（初期値）および選択された休みを赤く染める
+            if (localHolidays.includes(dateStr)) {
+                dayDiv.classList.add("selected");
+            }
+
+            // マスをクリックしたときの反転処理
+            dayDiv.onclick = function(e) {
+                e.preventDefault();
+                const index = localHolidays.indexOf(dateStr);
+                if (index > -1) {
+                    localHolidays.splice(index, 1);
+                    dayDiv.classList.remove("selected");
+                } else {
+                    localHolidays.push(dateStr);
+                    dayDiv.classList.add("selected");
+                }
+                // 最新状態を常にhidden inputへJSON同期
+                hiddenInput.value = JSON.stringify(localHolidays);
+            };
+
+            grid.appendChild(dayDiv);
+        }
+
+        calWrapper.appendChild(grid);
+        container.appendChild(calWrapper);
     }
-    else{
-        form.style.display="none";
+
+    draw();
+    return draw; 
+}
+
+// 表示・非表示の切り替えロジック
+function showEdit(id) {
+    const area = document.getElementById("edit-" + id);
+    if (area.style.display === "none") {
+        area.style.display = "block";
+        // フォームを開いた瞬間に、そのスタイリスト専用のdraw()関数を呼び出してリドローさせる
+        if (calendarDrawFunctions[id]) {
+            calendarDrawFunctions[id]();
+        }
+    } else {
+        area.style.display = "none";
     }
 }
 
-function showAdd(){
-    const area =
-    document.getElementById(
-        "add-stylist"
-    );
-
-    if(area.style.display==="none"){
-        area.style.display="block";
-    }
-    else{
-        area.style.display="none";
+function showAdd() {
+    const area = document.getElementById("add-area");
+    if (area.style.display === "none") {
+        area.style.display = "block";
+        if (calendarDrawFunctions["add"]) {
+            calendarDrawFunctions["add"](); 
+        }
+    } else {
+        area.style.display = "none";
     }
 }
-
 </script>
-
-
-
 </body>
-
 </html>
