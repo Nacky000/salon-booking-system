@@ -133,6 +133,11 @@ def login():
 
         # ログイン状態を保存
         session["user_id"] = user.user_id
+        session["role"] = user.role
+
+        # 管理者なら管理画面へ
+        if user.role == "admin":
+            return redirect(url_for("admin_dashboard"))
 
         # 元の画面へ戻る
         next_page = request.args.get("next")
@@ -140,7 +145,7 @@ def login():
         if next_page:
             return redirect(next_page)
 
-        # 指定がなければ予約画面へ
+        # 一般ユーザーは予約画面へ
         return redirect(url_for("reservation"))
 
     return render_template("login.html")
@@ -217,6 +222,12 @@ def history():
 @app.route("/admin")
 def admin_dashboard():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
     data = admin_service.get_dashboard_data()
 
     return render_template(
@@ -231,6 +242,12 @@ def admin_dashboard():
 @app.route("/admin/users")
 def admin_users():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
     users = admin_service.get_all_users()
 
     return render_template(
@@ -244,10 +261,16 @@ def admin_users():
 @app.route("/admin/menus")
 def admin_menus():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
     menus = admin_service.get_all_menus()
 
     return render_template(
-        "admin/menus.html",
+        "admin/menu_manage.html",
         menus=menus
     )
 
@@ -257,6 +280,12 @@ def admin_menus():
 # --------------------
 @app.route("/admin/menu/add", methods=["POST"])
 def admin_add_menu():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
 
     name = request.form["name"]
     price = int(request.form["price"])
@@ -276,6 +305,12 @@ def admin_add_menu():
 # --------------------
 @app.route("/admin/menu/update", methods=["POST"])
 def admin_update_menu():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
 
     menu_id = int(request.form["menu_id"])
     name = request.form["name"]
@@ -299,6 +334,12 @@ def admin_update_menu():
 @app.route("/admin/menu/delete", methods=["POST"])
 def admin_delete_menu():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
     menu_id = int(request.form["menu_id"])
 
     admin_service.delete_menu(menu_id)
@@ -313,10 +354,16 @@ def admin_delete_menu():
 @app.route("/admin/stylists")
 def admin_stylists():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
     stylists = admin_service.get_all_stylists()
 
     return render_template(
-        "admin/stylists.html",
+        "admin/stylist_manage.html",
         stylists=stylists
     )
 
@@ -328,6 +375,12 @@ def admin_stylists():
 # --------------------
 @app.route("/admin/stylist/update", methods=["POST"])
 def admin_update_stylist():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
 
     stylist_id = int(request.form["stylist_id"])
     name = request.form["name"]
@@ -349,12 +402,55 @@ def admin_update_stylist():
 @app.route("/admin/stylist/delete", methods=["POST"])
 def admin_delete_stylist():
 
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
     stylist_id = int(request.form["stylist_id"])
 
     admin_service.delete_stylist(stylist_id)
 
     return redirect(url_for("admin_stylists"))
 
+
+
+# --------------------
+# 予約管理
+# --------------------
+@app.route("/admin/reservation")
+def admin_reservation():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
+    reservations = admin_service.get_all_reservations()
+
+    return render_template(
+        "admin/reservation_manage.html",
+        reservations=reservations
+    )
+
+
+# --------------------
+# カレンダー
+# --------------------
+@app.route("/admin/calendar")
+def admin_calendar():
+
+    if "user_id" not in session:
+        return redirect(url_for("login"))
+
+    if session.get("role") != "admin":
+        return "管理者のみアクセスできます", 403
+
+    return render_template(
+        "admin/calendar.html"
+    )
 
 if __name__ == "__main__": # python main.py で実行されたときだけサーバーを起動
     app.run(debug=True) # コードを保存すると自動で再起動

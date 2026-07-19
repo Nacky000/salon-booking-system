@@ -1,5 +1,13 @@
 [
     {
+        "user_id": 0,
+        "name": "管理者",
+        "email": "admin@example.com",
+        "phone": "000-0000-0000",
+        "password": "admin123",
+        "role": "admin"
+    },
+    {
         "user_id": 1,
         "name": "山田太郎",
         "email": "yamada@example.com",
