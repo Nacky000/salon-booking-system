@@ -456,8 +456,8 @@ def admin_delete_stylist():
 # --------------------
 # 予約管理
 # --------------------
-@app.route("/admin/reservation")
-def admin_reservation():
+@app.route("/admin/reservations")
+def admin_reservations():
 
     if "user_id" not in session:
         return redirect(url_for("login"))

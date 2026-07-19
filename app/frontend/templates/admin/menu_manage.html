@@ -33,7 +33,45 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 <button>編集</button>
 
+<form action="/admin/menu/update" method="POST">
+
+<input type="hidden"
+name="menu_id"
+value="{{menu.menu_id}}">
+
+<input
+name="name"
+value="{{menu.name}}">
+
+<input
+name="price"
+value="{{menu.price}}">
+
+<input
+name="duration"
+value="{{menu.duration}}">
+
+<button type="submit">
+更新
+</button>
+
+</form>
+
 <button>削除</button>
+
+<form action="/admin/menu/delete" method="POST">
+
+<input 
+type="hidden"
+name="menu_id"
+value="{{ menu.menu_id }}"
+>
+
+<button type="submit">
+削除
+</button>
+
+</form>
 
 </div>
 
@@ -54,6 +92,20 @@ href="{{ url_for('static', filename='css/style.css') }}">
 ＋ メニュー追加
 
 </button>
+
+<form action="/admin/menu/add" method="POST">
+
+<input name="name" placeholder="メニュー名">
+
+<input name="price" placeholder="料金">
+
+<input name="duration" placeholder="時間">
+
+<button type="submit">
+追加
+</button>
+
+</form>
 
 <button onclick="location.href='/admin'">
 

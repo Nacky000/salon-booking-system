@@ -40,7 +40,32 @@ href="{{ url_for('static', filename='css/style.css') }}">
 
 <button>編集</button>
 
+<form action="/admin/stylist/add" method="POST">
+
+<input name="name" placeholder="美容師名">
+
+<input name="holiday" placeholder="休日">
+
+<button type="submit">
+追加
+</button>
+
+</form>
+
 <button>削除</button>
+
+<form action="/admin/stylist/delete" method="POST">
+
+<input 
+type="hidden"
+name="stylist_id"
+value="{{stylist.stylist_id}}">
+
+<button>
+削除
+</button>
+
+</form>
 
 </div>
 
