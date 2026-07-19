@@ -88,7 +88,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
 
         fetch(
-        `/reservation/times?date=${date}&stylist_id=${stylistId}&menu_ids=${menuIds}`
+            `/reservation/times?date=${date}&stylist_id=${stylistId}&menu_ids=${menuIds.join("&menu_ids=")}`
         )
         .then(response => response.json())
         .then(schedule => {
@@ -103,22 +103,15 @@ document.addEventListener("DOMContentLoaded", () => {
                 const button =
                     document.createElement("button");
 
-
                 button.type = "button";
-
 
                 button.textContent =
                     `${time} ${schedule[time]}`;
 
-
-
                 if(schedule[time] === "×"){
-
                     button.disabled = true;
 
-
                 }else{
-
 
                     button.onclick = function(){
 
@@ -139,32 +132,27 @@ document.addEventListener("DOMContentLoaded", () => {
 
                 }
 
-
                 timeArea.appendChild(button);
-
             }
-
-
         });
-
     }
 
 
 
-    if(stylistSelect && dateInput){
-
-
+    if(stylistSelect && dateInput && menuSelect){
         stylistSelect.addEventListener(
             "change",
             loadTimes
         );
-
 
         dateInput.addEventListener(
             "change",
             loadTimes
         );
 
+        menuSelect.addEventListener(
+            "change",
+            loadTimes
+        );
     }
-
 });

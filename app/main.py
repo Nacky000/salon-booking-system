@@ -88,7 +88,8 @@ def reservation_times():
 
     schedule = service.get_daily_schedule(
         date,
-        stylist_id
+        stylist_id,
+        menu_ids
     )
 
     return jsonify(schedule)
