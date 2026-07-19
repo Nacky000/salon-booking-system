@@ -39,10 +39,20 @@
 
                 <p><strong>予約ID：</strong>{{ reservation.id }}</p>
                 <p><strong>会員ID：</strong>{{ reservation.user_id }}</p>
-                <p><strong>美容師ID：</strong>{{ reservation.stylist_id }}</p>
+
+                <p><strong>美容師：</strong>{{ reservation.stylist_name }}</p>
+
+                <p>
+                    <strong>メニュー：</strong>
+                    {% for menu in reservation.menu_names %}
+                        {{ menu }}{% if not loop.last %}、{% endif %}
+                    {% endfor %}
+                </p>
+
                 <p><strong>予約日：</strong>{{ reservation.date }}</p>
                 <p><strong>予約時間：</strong>{{ reservation.time }}</p>
-                <p><strong>ステータス：</strong>{{ reservation.status }}</p>
+
+                <p><strong>ステータス：</strong>{{ reservation.status_text }}</p>
 
                 <!-- キャンセル -->
                 <form action="/reservation/cancel" method="POST">
