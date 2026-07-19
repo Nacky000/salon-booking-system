@@ -79,8 +79,16 @@ document.addEventListener("DOMContentLoaded", () => {
         }
 
 
+        const menuSelect =
+            document.getElementById("menu_ids");
+
+        const menuIds =
+            Array.from(menuSelect.selectedOptions)
+            .map(option => option.value);
+
+
         fetch(
-            `/reservation/times?date=${date}&stylist_id=${stylistId}`
+        `/reservation/times?date=${date}&stylist_id=${stylistId}&menu_ids=${menuIds}`
         )
         .then(response => response.json())
         .then(schedule => {

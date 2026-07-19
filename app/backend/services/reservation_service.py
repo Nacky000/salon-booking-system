@@ -132,7 +132,12 @@ class ReservationService:
 
         return reservations
 
-    def get_daily_schedule(self, date, stylist_id):
+    def get_daily_schedule(
+        self,
+        date,
+        stylist_id,
+        menu_ids
+    ):
         """予約可能時間確認"""
 
         reservations = self.repository.load_all()
@@ -164,10 +169,35 @@ class ReservationService:
 
         # 全時間作成
         all_times = generate_times()
+        menu_service = MenuService()
+        duration = 0
+
+        for menu_id in menu_ids:
+            menu = menu_service.get_by_id(menu_id)
+
+            if menu:
+                duration += menu.duration
 
         schedule = {}
 
         for time in all_times:
+            start = datetime.strptime(
+                time,
+                "%H:%M"
+            )
+
+            end = start + timedelta(
+                minutes=duration
+            )
+
+            closing = datetime.strptime(
+                "18:00",
+                "%H:%M"
+            )
+
+            if end > closing:
+                schedule[time] = "×"
+                continue
 
             if time in reserved_times:
                 schedule[time] = "×"

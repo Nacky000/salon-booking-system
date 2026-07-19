@@ -76,7 +76,13 @@ def reservation_list():
 def reservation_times():
 
     date = request.args["date"]
+
     stylist_id = int(request.args["stylist_id"])
+
+    menu_ids = [
+        int(id)
+        for id in request.args.getlist("menu_ids")
+    ]
 
     service = ReservationService()
 
