@@ -1,0 +1,20 @@
+[
+    {
+        "stylist_id": 1,
+        "name": "田中",
+        "holiday": []
+    },
+    {
+        "stylist_id": 2,
+        "name": "佐藤",
+        "holiday": []
+    },
+    {
+        "stylist_id": 3,
+        "name": "鈴木",
+        "holiday": [
+            "2026-07-20",
+            "2026-07-27"
+        ]
+    }
+]

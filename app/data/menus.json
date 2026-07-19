@@ -1,0 +1,20 @@
+[
+    {
+        "menu_id": 1,
+        "name": "カット",
+        "price": 4000,
+        "duration": 60
+    },
+    {
+        "menu_id": 2,
+        "name": "カラー",
+        "price": 6000,
+        "duration": 90
+    },
+    {
+        "menu_id": 3,
+        "name": "パーマ",
+        "price": 8000,
+        "duration": 120
+    }
+]

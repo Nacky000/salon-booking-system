@@ -1,4 +1,6 @@
 from backend.services.reservation_service import ReservationService
+from backend.services.admin_service import AdminService
+from backend.services.history_service import HistoryService
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(
@@ -8,6 +10,8 @@ app = Flask(
 ) # Flaskアプリ作成，設定
 
 app.secret_key = "salon-booking-system" # 実用ではランダムな長い文字列とする
+
+admin_service = AdminService()
 
 
 # --------------------
@@ -128,19 +132,169 @@ def logout():
 # --------------------
 # 履歴
 # --------------------
-# @app.route("/history")
-# def history():
+@app.route("/history")
+def history():
 
-#     service = HistoryService()
+    if "user_id" not in session:
+        return redirect(url_for("login"))
 
-#     histories = service.get_history(
-#         session["user_id"]
-#     )
+    service = HistoryService()
 
-#     return render_template(
-#         "history.html",
-#         histories=histories
-#     )
+    histories = service.get_history(
+        session["user_id"]
+    )
+
+    return render_template(
+        "history.html",
+        histories=histories
+    )
+
+
+# --------------------
+# 管理画面トップ
+# --------------------
+@app.route("/admin")
+def admin_dashboard():
+
+    data = admin_service.get_dashboard_data()
+
+    return render_template(
+        "admin/dashboard.html",
+        data=data
+    )
+
+
+# --------------------
+# 会員一覧
+# --------------------
+@app.route("/admin/users")
+def admin_users():
+
+    users = admin_service.get_all_users()
+
+    return render_template(
+        "admin/users.html",
+        users=users
+    )
+
+# --------------------
+# メニュー一覧
+# --------------------
+@app.route("/admin/menus")
+def admin_menus():
+
+    menus = admin_service.get_all_menus()
+
+    return render_template(
+        "admin/menus.html",
+        menus=menus
+    )
+
+
+# --------------------
+# メニュー追加
+# --------------------
+@app.route("/admin/menu/add", methods=["POST"])
+def admin_add_menu():
+
+    name = request.form["name"]
+    price = int(request.form["price"])
+    duration = int(request.form["duration"])
+
+    admin_service.add_menu(
+        name,
+        price,
+        duration
+    )
+
+    return redirect(url_for("admin_menus"))
+
+
+# --------------------
+# メニュー更新
+# --------------------
+@app.route("/admin/menu/update", methods=["POST"])
+def admin_update_menu():
+
+    menu_id = int(request.form["menu_id"])
+    name = request.form["name"]
+    price = int(request.form["price"])
+    duration = int(request.form["duration"])
+
+    admin_service.update_menu(
+        menu_id,
+        name,
+        price,
+        duration
+    )
+
+    return redirect(url_for("admin_menus"))
+
+
+
+# --------------------
+# メニュー削除
+# --------------------
+@app.route("/admin/menu/delete", methods=["POST"])
+def admin_delete_menu():
+
+    menu_id = int(request.form["menu_id"])
+
+    admin_service.delete_menu(menu_id)
+
+    return redirect(url_for("admin_menus"))
+
+
+
+# --------------------
+# 美容師一覧
+# --------------------
+@app.route("/admin/stylists")
+def admin_stylists():
+
+    stylists = admin_service.get_all_stylists()
+
+    return render_template(
+        "admin/stylists.html",
+        stylists=stylists
+    )
+
+
+
+
+# --------------------
+# 美容師更新
+# --------------------
+@app.route("/admin/stylist/update", methods=["POST"])
+def admin_update_stylist():
+
+    stylist_id = int(request.form["stylist_id"])
+    name = request.form["name"]
+    holiday = request.form["holiday"]
+
+    admin_service.update_stylist(
+        stylist_id,
+        name,
+        holiday
+    )
+
+    return redirect(url_for("admin_stylists"))
+
+
+
+# --------------------
+# 美容師削除
+# --------------------
+@app.route("/admin/stylist/delete", methods=["POST"])
+def admin_delete_stylist():
+
+    stylist_id = int(request.form["stylist_id"])
+
+    admin_service.delete_stylist(stylist_id)
+
+    return redirect(url_for("admin_stylists"))
+
 
 if __name__ == "__main__": # python main.py で実行されたときだけサーバーを起動
     app.run(debug=True) # コードを保存すると自動で再起動
+
