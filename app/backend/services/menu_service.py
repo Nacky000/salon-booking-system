@@ -32,7 +32,7 @@ class MenuService:
             new_id = 1
 
         menu = Menu(
-            id=new_id,
+            menu_id=new_id,
             name=name,
             price=price,
             duration=duration
@@ -50,7 +50,7 @@ class MenuService:
         menus = self.repository.load_menus()
 
         for menu in menus:
-            if menu.id == menu_id:
+            if menu.menu_id == menu_id:
                 menu.name = name
                 menu.price = price
                 menu.duration = duration

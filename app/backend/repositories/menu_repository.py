@@ -37,7 +37,7 @@ class MenuRepository:
         menus = self.load_menus()
 
         for menu in menus:
-            if menu.id == menu_id:
+            if menu.menu_id == menu_id:
                 return menu
 
         return None
