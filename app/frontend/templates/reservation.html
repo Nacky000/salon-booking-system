@@ -62,14 +62,16 @@
 
     <!-- 時間 -->
     <div class="form-group">
-        <label for="time">予約時間</label>
 
-        <input
-            type="time"
-            id="time"
-            name="time"
-            required>
+        <label>予約時間</label>
+
+        <div id="time-area">
+            美容師と日付を選択してください
+        </div>
+
     </div>
+
+    <input type="hidden" id="time" name="time">
 
     <button type="submit">
         予約する

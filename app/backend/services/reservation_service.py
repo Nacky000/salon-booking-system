@@ -4,6 +4,7 @@ from backend.repositories.reservation_repository import ReservationRepository
 from backend.utils.time_utils import generate_times
 from backend.services.menu_service import MenuService
 from backend.services.stylist_service import StylistService
+from datetime import datetime, timedelta
 
 class ReservationService:
 
@@ -19,6 +20,39 @@ class ReservationService:
         time
     ):
         """予約登録"""
+        
+        if time not in generate_times():
+            return "invalid_time"
+    
+
+        # 施術時間チェック
+        menu_service = MenuService()
+        total_duration = 0
+
+        for menu_id in menu_ids:
+            menu = menu_service.get_by_id(menu_id)
+
+            if menu:
+                total_duration += menu.duration
+
+        start_time = datetime.strptime(
+            time,
+            "%H:%M"
+        )
+
+        end_time = (
+            start_time
+            + timedelta(minutes=total_duration)
+        )
+
+        closing_time = datetime.strptime(
+            "18:00",
+            "%H:%M"
+        )
+
+        if end_time > closing_time:
+            return "outside_business_hours"
+        
         reservations = self.repository.load_all() # 現在の予約一覧を取得
 
         for reservation in reservations: # 同じ美容師・同じ日付・同じ時間に予約がないか確認
@@ -100,14 +134,35 @@ class ReservationService:
 
     def get_daily_schedule(self, date, stylist_id):
         """予約可能時間確認"""
-        reservations = self.repository.load_all()
 
+        reservations = self.repository.load_all()
         reserved_times = set()
+        menu_service = MenuService()
 
         for r in reservations:
             if r.date == date and r.stylist_id == stylist_id:
-                reserved_times.add(r.time)
+                total_duration = 0
+                # メニュー時間合計
+                for menu_id in r.menu_ids:
+                    menu = menu_service.get_by_id(menu_id)
 
+                    if menu:
+                        total_duration += menu.duration
+
+                # 開始時間から30分ごとに埋める
+                start = datetime.strptime(
+                    r.time,
+                    "%H:%M"
+                )
+
+                for i in range(total_duration // 30):
+                    t = (
+                        start + timedelta(minutes=30*i)
+                    ).strftime("%H:%M")
+
+                    reserved_times.add(t)
+
+        # 全時間作成
         all_times = generate_times()
 
         schedule = {}
@@ -116,8 +171,8 @@ class ReservationService:
 
             if time in reserved_times:
                 schedule[time] = "×"
-
             else:
                 schedule[time] = "○"
+
 
         return schedule

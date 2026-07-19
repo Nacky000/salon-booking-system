@@ -5,6 +5,7 @@ from backend.services.user_service import UserService
 from backend.services.menu_service import MenuService
 from backend.services.stylist_service import StylistService
 from backend.services.auth_service import AuthService
+from flask import jsonify
 from flask import Flask, render_template, request, redirect, url_for, session
 
 app = Flask(
@@ -66,6 +67,25 @@ def reservation_list():
         reservations=reservations
     )
 
+
+# --------------------
+# 予約時間管理
+# --------------------
+@app.route("/reservation/times")
+def reservation_times():
+
+    date = request.args["date"]
+    stylist_id = int(request.args["stylist_id"])
+
+    service = ReservationService()
+
+    schedule = service.get_daily_schedule(
+        date,
+        stylist_id
+    )
+
+    return jsonify(schedule)
+
 # --------------------
 # 予約登録
 # --------------------
@@ -86,7 +106,7 @@ def create_reservation():
     date = request.form["date"]
     time = request.form["time"]
 
-    success = service.create_reservation(
+    result = service.create_reservation(
         user_id=user_id,
         menu_ids=menu_ids,
         stylist_id=stylist_id,
@@ -94,10 +114,19 @@ def create_reservation():
         time=time,
     )
 
-    if success:
+
+    if result == "success":
         return redirect(url_for("reservation_list"))
 
-    return "この時間は予約できません", 400
+    elif result == "invalid_time":
+        return "予約可能な時間を選択してください", 400
+
+    elif result == "outside_business_hours":
+        return "営業時間外のため予約できません", 400
+
+    elif result == "duplicate":
+        return "この時間はすでに予約されています", 400
+    
 
 # --------------------
 # 予約キャンセル
