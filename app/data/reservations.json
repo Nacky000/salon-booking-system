@@ -34,5 +34,17 @@
         "date": "2026-07-22",
         "time": "13:00",
         "status": "cancelled"
+    },
+    {
+        "id": 4,
+        "user_id": 1,
+        "menu_ids": [
+            2,
+            3
+        ],
+        "stylist_id": 2,
+        "date": "2026-07-21",
+        "time": "09:30",
+        "status": "reserved"
     }
 ]

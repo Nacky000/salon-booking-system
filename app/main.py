@@ -381,12 +381,13 @@ def admin_delete_menu():
     if session.get("role") != "admin":
         return "管理者のみアクセスできます", 403
 
-    menu_id = int(request.form["menu_id"])
-
-    admin_service.delete_menu(menu_id)
+    # ★ 修正：フォームから文字列で来るため、確実に数値型 (int) にキャストする
+    menu_id_raw = request.form.get("menu_id")
+    if menu_id_raw:
+        menu_id = int(menu_id_raw)
+        admin_service.delete_menu(menu_id)
 
     return redirect(url_for("admin_menus"))
-
 
 
 # --------------------
@@ -422,9 +423,9 @@ def admin_add_stylist():
 
     name = request.form["name"]
 
-    holiday = json.loads(
-        request.form["holiday"]
-    )
+    holiday_raw = request.form.get("holiday", "")
+    holiday = holiday_raw.split(",") if holiday_raw else []
+    # ----------------
 
     admin_service.add_stylist(
         name,
@@ -449,16 +450,15 @@ def admin_update_stylist():
 
     name = request.form["name"]
 
-    holiday = json.loads(
-        request.form["holiday"]
-    )
+    holiday_raw = request.form.get("holiday", "")
+    holiday = holiday_raw.split(",") if holiday_raw else []
+    # ----------------
 
     admin_service.update_stylist(
         stylist_id,
         name,
         holiday
     )
-
 
     return redirect(
         url_for("admin_stylists")
