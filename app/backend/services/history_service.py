@@ -16,10 +16,8 @@ class HistoryService:
 
         reservations = self.repository.get_all()
 
-        histories = [
+        return [
             reservation
             for reservation in reservations
             if reservation.user_id == user_id
         ]
-
-        return histories

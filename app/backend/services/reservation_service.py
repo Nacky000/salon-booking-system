@@ -47,17 +47,30 @@ class ReservationService:
 
     def cancel_reservation(self, reservation_id):
         """予約キャンセル"""
-        reservation = self.repository.find_by_id(reservation_id) # ID検索する
+        reservations = self.repository.load_all()
 
-        if reservation is None: # 見つからない場合
-            return False
+        for reservation in reservations:
+            if reservation.id == reservation_id:
+                reservation.status = "cancelled"
+                self.repository.save_all(reservations)
+                return True
 
-        self.repository.delete(reservation_id) # 見つかった場合，削除する
-        return True
+        return False
 
     def get_reservations(self):
         """予約一覧取得"""
         return self.repository.load_all()
+    
+    def get_user_reservations(self, user_id):
+        """ユーザーの予約一覧を取得"""
+
+        reservations = self.repository.load_all()
+
+        return [
+            reservation
+            for reservation in reservations
+            if reservation.user_id == user_id
+        ]
 
     def get_daily_schedule(self, date, stylist_id):
         """予約可能時間確認"""
