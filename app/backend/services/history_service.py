@@ -14,7 +14,7 @@ class HistoryService:
         指定ユーザーの予約履歴を取得
         """
 
-        reservations = self.repository.get_all()
+        reservations = self.repository.load_all()
 
         return [
             reservation
