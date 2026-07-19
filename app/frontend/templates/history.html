@@ -5,60 +5,54 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-    <!-- ページタイトル -->
     <title>予約履歴 | Salon Booking System</title>
-
-    <!-- CSS -->
+    
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* 下部ボタンエリア */
+        .action-buttons {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-logout {
+            background-color: #e74c3c !important;
+            color: white !important;
+        }
+    </style>
 </head>
 
 <body>
 
-    <!-- ========================= -->
-    <!-- ヘッダー -->
-    <!-- ========================= -->
     <header>
         <h1>予約履歴</h1>
         <p>これまでの予約履歴を確認できます</p>
     </header>
 
-    <!-- ========================= -->
-    <!-- 予約履歴 -->
-    <!-- ========================= -->
     <main class="container">
 
     {% if histories %}
-
         {% for history in histories %}
-
         <div class="reservation-card">
-
             <h3>予約履歴</h3>
-
             <p><strong>メニュー：</strong>{{ ", ".join(history.menu_names) }}</p>
             <p><strong>美容師：</strong>{{ history.stylist_name }}</p>
             <p><strong>利用日：</strong>{{ history.date }}</p>
             <p><strong>利用時間：</strong>{{ history.time }}</p>
             <p><strong>ステータス：</strong>{{ history.status_text }}</p>
-
         </div>
-
         {% endfor %}
-
     {% else %}
-
         <p>予約履歴はありません。</p>
-
     {% endif %}
 
-        <!-- トップページへ戻る -->
-        <button onclick="location.href='/'">
-            トップへ戻る
-        </button>
+    <div class="action-buttons">
+        <button type="button" onclick="location.href='/reservation'">予約する</button>
+        <button type="button" class="btn-logout" onclick="location.href='/logout'">ログアウト</button>
+    </div>
 
     </main>
 
-    <!-- JavaScript -->
     <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
 </body>

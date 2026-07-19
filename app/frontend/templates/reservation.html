@@ -8,6 +8,52 @@
     <title>予約画面 | Salon Booking System</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <style>
+        /* 時間選択ボタンのスタイル調整 */
+        #time-area {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-top: 10px;
+        }
+        #time-area button {
+            padding: 8px 15px;
+            border: 1px solid #ccc;
+            background: #fff;
+            color: #333;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+        #time-area button:hover:not(:disabled) {
+            background: #f0f0f0;
+        }
+        /* 選択された時間ボタンのスタイル */
+        #time-area button.selected {
+            background: #333 !important;
+            color: #fff !important;
+            border-color: #333 !important;
+            font-weight: bold;
+        }
+        /* 予約不可（×）のボタンのスタイル */
+        #time-area button:disabled {
+            background: #e0e0e0;
+            color: #999;
+            border-color: #d0d0d0;
+            cursor: not-allowed;
+        }
+        /* 下部ボタンエリア */
+        .action-buttons {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        .btn-logout {
+            background-color: #e74c3c !important;
+            color: white !important;
+        }
+    </style>
 </head>
 
 <body>
@@ -24,7 +70,6 @@
     <!-- メニュー -->
     <div class="form-group">
         <label for="menu_ids">メニュー</label>
-
         <select id="menu_ids" name="menu_ids" multiple required>
             {% for menu in menus %}
             <option value="{{ menu.menu_id }}">
@@ -32,15 +77,14 @@
             </option>
             {% endfor %}
         </select>
-
         <small>※Ctrl（Macは⌘）を押しながら複数選択できます。</small>
     </div>
 
     <!-- 美容師 -->
     <div class="form-group">
         <label for="stylist_id">担当美容師</label>
-
         <select id="stylist_id" name="stylist_id" required>
+            <option value="" disabled selected>美容師を選択してください</option>
             {% for stylist in stylists %}
             <option value="{{ stylist.stylist_id }}">
                 {{ stylist.name }}
@@ -52,26 +96,19 @@
     <!-- 日付 -->
     <div class="form-group">
         <label for="date">予約日</label>
-
-        <input
-            type="date"
-            id="date"
-            name="date"
-            required>
+        <input type="date" id="date" name="date" required>
     </div>
 
     <!-- 時間 -->
     <div class="form-group">
-
         <label>予約時間</label>
-
         <div id="time-area">
             メニュー・美容師・日付を選択してください
         </div>
-
     </div>
 
-    <input type="hidden" id="time" name="time">
+    <!-- 選択された時間を格納する隠しインプット -->
+    <input type="hidden" id="time" name="time" required>
 
     <button type="submit">
         予約する
@@ -79,14 +116,24 @@
 
 </form>
 
-<button onclick="location.href='/'">
-    トップへ戻る
-</button>
+<div class="action-buttons">
+    <button type="button" onclick="location.href='/history'">予約履歴</button>
+    <button type="button" class="btn-logout" onclick="location.href='/logout'">ログアウト</button>
+</div>
 
 </main>
 
 <script src="{{ url_for('static', filename='js/script.js') }}"></script>
 
-</body>
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const dateInput = document.getElementById("date");
+        const today = new Date().toISOString().split('T')[0];
+        if(dateInput) {
+            dateInput.min = today;
+        }
+    });
+</script>
 
+</body>
 </html>
