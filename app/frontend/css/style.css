@@ -167,3 +167,25 @@ button:hover {
     text-align: center;
     color: gray;
 }
+
+/* =========================
+   予約時間選択欄
+========================= */
+
+#time-area {
+    height: 150px;       /* メニュー欄より少し大きい */
+    overflow-y: auto;    /* 縦スクロール */
+    border: 1px solid #cccccc;
+    border-radius: 8px;
+    padding: 10px;
+    background-color: white;
+}
+
+
+/* 時間ボタン */
+#time-area button {
+    width: 100%;
+    padding: 8px;
+    margin: 3px 0;
+    font-size: 16px;
+}
