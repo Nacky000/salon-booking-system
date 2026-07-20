@@ -9,7 +9,7 @@
         "stylist_id": 2,
         "date": "2026-07-21",
         "time": "11:30",
-        "status": "cancelled"
+        "status": "reserved"
     },
     {
         "id": 2,
@@ -45,6 +45,18 @@
         "stylist_id": 2,
         "date": "2026-07-21",
         "time": "09:30",
-        "status": "reserved"
+        "status": "cancelled"
+    },
+    {
+        "id": 5,
+        "user_id": 1,
+        "menu_ids": [
+            2,
+            3
+        ],
+        "stylist_id": 1,
+        "date": "2026-07-21",
+        "time": "13:00",
+        "status": "cancelled"
     }
 ]
